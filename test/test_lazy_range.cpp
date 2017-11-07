@@ -6,6 +6,13 @@
 
 #include <cxxabi.h>
 
+
+template<size, type, gen>
+générateur it
+Array size type previousresults.
+
+
+
 template<
     typename T>
 std::string type_name()
