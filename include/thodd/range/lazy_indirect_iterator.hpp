@@ -12,20 +12,61 @@ thodd
     struct lazy_indirect_iterator 
     {
         iterator_t it ;
-
-        using value_type = std::decay_t<decltype(it)> ;
-        
-        constexpr auto & operator ++ () { return (++it, *this) ; }
-        constexpr auto const & operator ++ () const { return (++it, *this) ; }
-
-        constexpr auto operator * () { return it ; }
-        constexpr auto operator * () const { return it ; }
-
-        constexpr auto operator != (lazy_indirect_iterator const & other) const { return other.it != it ; }
     } ;
 
     template <typename iterator_t>
     lazy_indirect_iterator (iterator_t) -> lazy_indirect_iterator<iterator_t> ;
+
+    constexpr auto
+    next (lazy_indirect_iterator<auto> & it)
+    -> decltype(auto)
+    { 
+        next(it.it) ;
+        return it ;
+    }
+
+    constexpr auto 
+    next (lazy_indirect_iterator<auto> const & it)
+    -> decltype(auto)
+    { 
+        next(it.it) ;
+        return it ;
+    }
+
+    constexpr auto
+    next (lazy_indirect_iterator<auto> && it)
+    -> decltype(auto)
+    { 
+        next(it.it) ;
+        return it ;
+    }
+
+
+
+    constexpr auto 
+    get (lazy_indirect_iterator<auto> & it)
+    -> decltype(auto)
+    { return it.it ; }
+
+    constexpr auto
+    get (lazy_indirect_iterator<auto> const & it)
+    -> decltype(auto)
+    { return it.it ; }
+
+    constexpr auto
+    get (lazy_indirect_iterator<auto> && it)
+    -> decltype(auto)
+    { return it.it ; }
+
+
+
+    constexpr bool
+    not_equals (
+        lazy_indirect_iterator<auto> const & lit, 
+        lazy_indirect_iterator<auto> const & rit)
+    { return not_equals(lit.it, rit.it) ; }
+
+
 
     inline constexpr auto
     indirect = 
@@ -33,8 +74,8 @@ thodd
     {
         return 
         range { 
-            lazy_indirect_iterator { std::forward<decltype(container)>(container).begin() }, 
-            lazy_indirect_iterator { std::forward<decltype(container)>(container).end() } } ;
+            lazy_indirect_iterator { begin(std::forward<decltype(container)>(container)) }, 
+            lazy_indirect_iterator { end(std::forward<decltype(container)>(container)) } } ;
     } ;
 
 }

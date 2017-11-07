@@ -4,7 +4,6 @@
 namespace
 thodd
 {
-
     template <
         typename iterator_t, 
         typename stepper_t>
@@ -32,7 +31,13 @@ thodd
     step = 
     [] (auto && container, auto && stepper) 
     {
-        
+        auto end = std::forward<decltype(container)>(container).end() ;
+        auto begin = std::forward<decltype(container)>(container).begin() ;
+        auto begin_step = lazy_step_iterator { begin, begin, std::forward<decltype(stepper)>(stepper)} ; 
+        auto end_step = lazy_step_iterator { end, end, std::forward<decltype(stepper)>(stepper)} ; 
+        return 
+        range 
+        { begin_step, end_step } ;
     } ;
 }
 

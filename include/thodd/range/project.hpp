@@ -16,8 +16,8 @@ thodd
     [] (auto && container, auto && projector)
     { 
         return range 
-        { lazy_iterator {std::forward<decltype(container)>(container).begin(), projector }, 
-          lazy_iterator {std::forward<decltype(container)>(container).end(), projector } } ; 
+        { lazy_iterator {begin(std::forward<decltype(container)>(container)), projector }, 
+          lazy_iterator {end(std::forward<decltype(container)>(container)), projector } } ; 
     } ;
 
     inline constexpr auto 

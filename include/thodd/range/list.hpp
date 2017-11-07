@@ -2,6 +2,7 @@
 #  define __THODD_RANGE_LIST_HPP__
 
 #  include <list>
+#  include <iostream>
 
 namespace 
 thodd
@@ -30,58 +31,61 @@ thodd
             std::forward<decltype(item)>(item)... } };
     }
 
-    template <typename type_t>
     constexpr auto
-    push_back (list<type_t> & l, auto && item)
+    push_back (list<auto> & l, auto && item)
     -> decltype(auto)
     {
         l.push_back(std::forward<decltype(item)>(item)) ;
         return l ;
     }
     
-
-    template <typename type_t>
     constexpr auto 
-    push_back (list<type_t> const & l, auto && item)
+    push_back (list<auto> const & l, auto && item)
     -> decltype(auto) const
     {
-        list<type_t> new_list { l } ;
+        auto new_list = l ;
         return 
         push_back(new_list, std::forward<decltype(item)>(item)) ;
     }
 
 
-    constexpr list_iterator<auto> & 
+    constexpr auto 
     next (list_iterator<auto> & it)
+    -> decltype(auto)
     { 
         ++it.it ;
         return it ;
     }
 
-    constexpr list_iterator<auto> const & 
+    constexpr auto 
     next (list_iterator<auto> const & it)
+    -> decltype(auto)
     { 
         ++it.it ;
         return it ;
     }
 
-    constexpr list_iterator<auto> && 
+    constexpr auto 
     next (list_iterator<auto> && it)
+    -> decltype(auto)
     { 
         ++it.it ;
         return it ;
     }
 
-    constexpr auto & 
+    constexpr auto 
     get (list_iterator<auto> & it)
-    { return *it.it ; }
+    -> decltype(auto)
+    {  return *it.it ; }
 
-    constexpr auto const & 
+    constexpr auto 
     get (list_iterator<auto> const & it)
+    -> decltype(auto)
     { return *it.it ; }
 
-    constexpr auto && 
+    constexpr auto 
     get (list_iterator<auto> && it)
+    -> decltype(auto)
     { return *it.it ; }
 
     constexpr bool

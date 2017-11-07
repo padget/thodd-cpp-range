@@ -15,10 +15,9 @@ thodd
     filter =  
     [] (auto && container, auto && predicate)
     {
-        auto end = std::forward<decltype(container)>(container).end() ;
-        auto begin = std::forward<decltype(container)>(container).begin() ; 
-        auto begin_filter = make_lazy_filter_iterator (begin, end, predicate) ;
-        auto end_filter   = make_lazy_filter_iterator (end, end, predicate) ;
+        auto begin_filter = make_lazy_filter_iterator (begin(std::forward<decltype(container)>(container)), end(std::forward<decltype(container)>(container)), predicate) ;
+        auto end_filter   = make_lazy_filter_iterator (end(std::forward<decltype(container)>(container)), end(std::forward<decltype(container)>(container)), predicate) ;
+        
         return 
         range { begin_filter, end_filter } ;
     } ;

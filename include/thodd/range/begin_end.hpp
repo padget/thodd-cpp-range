@@ -6,19 +6,6 @@
 namespace 
 thodd
 {
-    constexpr auto
-    begin (auto && container)
-    {
-        return 
-        std::forward<decltype(container)>(container).begin ; 
-    }
-
-    constexpr auto 
-    end (auto && container)
-    {
-        return 
-        std::forward<decltype(container)>(container).end ;
-    }
 }
 
 #endif
