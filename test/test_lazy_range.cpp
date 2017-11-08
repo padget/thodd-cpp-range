@@ -12,6 +12,110 @@ générateur it
 Array size type previousresults.
 */
 
+template <
+    size_t size_c, 
+    typename type_t, 
+    typename generator_t>
+struct generator_iterator 
+{
+    std::array<type_t, size_c> previous ;
+    generator_t generator ;
+} ;
+
+
+template<size_t size_c>
+constexpr auto 
+next (generator_iterator<size_c, auto, auto> & it)
+-> decltype(auto)
+{ 
+    std::rotate(
+        it.previous.begin(), 
+        it.previous.begin() + 1, 
+        it.previous.end()) ;
+
+    it.previous[size_c - 1] = 
+        std::apply(
+            [&it] (auto && ... previous) 
+            { return it.generator (previous...) ; },  it.previous) ;
+
+    return it ;
+}
+
+template<size_t size_c>
+constexpr auto 
+next (generator_iterator<size_c, auto, auto> const & it)
+-> decltype(auto)
+{ 
+    std::rotate(
+        it.previous.begin(), 
+        it.previous.begin() + 1, 
+        it.previous.end()) ;
+
+    it.previous[size_c - 1] = 
+        std::apply(
+            [&it] (auto && ... previous) 
+            { return it.generator (previous...) ; },  it.previous) ;
+
+    return it ;
+}
+
+template<size_t size_c>
+constexpr auto 
+next (generator_iterator<size_c, auto, auto> && it)
+-> decltype(auto)
+{ 
+    std::rotate(
+        it.previous.begin(), 
+        it.previous.begin() + 1, 
+        it.previous.end()) ;
+
+    it.previous[size_c - 1] = 
+        std::apply(
+            [&it] (auto && ... previous) 
+            { return it.generator (previous...) ; },  it.previous) ;
+
+    return it ;
+}
+
+template<size_t size_c>
+constexpr auto 
+get (generator_iterator<size_c, auto, auto> & it)
+-> decltype(auto)
+{  return it.previous[size_c - 1] ; }
+
+template<size_t size_c>
+constexpr auto 
+get (generator_iterator<size_c, auto, auto> const & it)
+-> decltype(auto)
+{ return it.previous[size_c - 1] ; }
+
+
+template<size_t size_c>
+constexpr auto 
+get (generator_iterator<size_c, auto, auto> && it)
+-> decltype(auto)
+{ return it.previous[size_c - 1] ; }
+
+template<size_t size_c>
+constexpr bool
+not_equals (
+    generator_iterator<size_c, auto, auto> const & lit, 
+    generator_iterator<size_c, auto, auto> const & rit)
+{ return lit.it != rit.it ; }
+
+
+constexpr auto
+generate (auto && generator, auto && initial, auto && ... initials)
+{
+    return 
+    generator_iterator <
+        sizeof...(initials) + 1, 
+        std::decay_t<decltype(initial)>, 
+        std::decay_t<decltype(generator)>> 
+     { std::array{initial, initials... }, generator } ;
+
+}
+
 
 template<
     typename T>
@@ -155,4 +259,12 @@ int main()
     thodd::push(m, 4, 2);
 
     thodd::for_each(m, [](auto && kv) {std::cout << kv.second << std::endl ; });
+
+
+    std::cout << "generate\n" ;
+    
+    auto toot = generate([](auto && n_1) { return n_1 +1 ;}, 0) ;
+
+    while (get(toot) < 12)
+        std::cout << get(next(toot)) << std::endl ;
 }
