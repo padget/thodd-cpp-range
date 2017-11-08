@@ -7,10 +7,10 @@
 #include <cxxabi.h>
 
 
-template<size, type, gen>
+/*template<size, type, gen>
 générateur it
 Array size type previousresults.
-
+*/
 
 
 template<
@@ -56,12 +56,12 @@ int main()
             [] (auto && p) -> decltype(auto) { return p.addr.rue ; }), 
         [] (auto && rue) { std::cout << rue << std::endl ; }) ;
 
-    std::cout << "filters" << std::endl ;
+    /*std::cout << "filters" << std::endl ;
     auto nums = thodd::make_list(0, 1, 2, 3, 4, 5, 6) ;
-
+    std::cout << "debug\n" ;
     thodd::for_each(
         thodd::filter (nums, [] (auto && num) { return num % 2 == 0 ; } ),
-        [] (auto && num) { std::cout << num << std::endl });
+        [] (auto && num) { std::cout << num << std::endl ; }) ;
 
     std::cout << "sizes" << std::endl ;
 
@@ -95,35 +95,35 @@ int main()
                 [] (auto && rue) { return rue.size() ; }),
             [] (auto && size) { return size > 10 ; });
     
-    thodd::for_each (sizes2, [] (auto && size) { std::cout << "size " << size << std::endl }) ;
+    thodd::for_each (sizes2, [] (auto && size) { std::cout << "size " << size << std::endl ; }) ;
 
     auto sum2 = thodd::reduce (sizes2, 0, [] (auto acc, auto item) { return acc + item ; });
     std::cout << sum2 << std::endl ;
 
     std::cout << "count " << thodd::count (sizes2, 18) << std::endl ;
     std::cout << "count " << thodd::count_if (sizes2, thodd::equal(thodd::val(1), thodd::$0)) << std::endl ;
-
+*/
     auto nums2 = thodd::make_array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) ;
     
     constexpr auto onlypair = [] (auto && item) { return item % 2 == 0 ; } ;
     constexpr auto threeless = [] (auto && item) { return item <= 3 ; } ;
 
-    std::cout << "filters" << std::endl ;
+    // std::cout << "filters" << std::endl ;
 
-    thodd::for_each (
-        thodd::filters(nums2, threeless, onlypair), 
-        [] (auto && num) {std::cout << num << std::endl}) ;
+    // thodd::for_each (
+    //     thodd::filters(nums2, threeless, onlypair), 
+    //     [] (auto && num) {std::cout << num << std::endl ; }) ;
 
-    std::cout << "count_if pair " << thodd::count_if(nums2, onlypair) << std::endl ;
+    // std::cout << "count_if pair " << thodd::count_if(nums2, onlypair) << std::endl ;
 
     std::cout << "collect " << std::endl ;
     thodd::for_each (
-        thodd::collect(nums2, thodd::to_std_list), 
+        thodd::collect(nums2, thodd::to_list), 
         [] (auto && num) { std::cout << num << std::endl ; }) ;
 
     std::cout << "map collect" << std::endl ;
     thodd::for_each (
-        thodd::collect(nums2, thodd::to_std_map(thodd::$0, thodd::sum(thodd::$0, thodd::val(2)))), 
+        thodd::collect(nums2, thodd::to_map(thodd::$0, thodd::sum(thodd::$0, thodd::val(2)))), 
         [] (auto && pair) { std::cout << pair.first << ' ' << pair.second << '\n' ; }) ;
         
 

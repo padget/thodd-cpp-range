@@ -28,7 +28,7 @@ thodd
         iterator_t it ;  
         iterator_t end_it ;
         predicate_t predicate ;
-        optional<std::decay_t<decltype(get(it))>> last_value {}; 
+        optional<std::decay_t<decltype(get(it))>> last_value {} ; 
     } ;
 
 
@@ -42,14 +42,11 @@ thodd
         using iterator_t  = decltype(begin) ;
         using predicate_t = decltype(predicate) ;
 
-        lazy_filter_iterator<iterator_t, predicate_t> lfi (begin, end, predicate) ;
+        lazy_filter_iterator<iterator_t, predicate_t> lfi { begin, end, predicate } ;
 
-        if (lfi.it != lfi.end_it)
-        {
-            if constexpr (std::is_pointer_v<decltype(lfi.last_value)>)
-            { if (!predicate(*(lfi.last_value = detail::ref_or_value(*lfi.it)))) next (lfi) ; }
-            else if (predicate(lfi.last_value = detail::ref_or_value(*lfi.it))) next (lfi) ; 
-        } 
+        if (not_equals(lfi.it, lfi.end_it))
+            if (predicate(value_of(lfi.last_value) = get(lfi.it))) 
+                next (lfi) ; 
 
         return 
         lfi;
@@ -59,29 +56,27 @@ thodd
     next (lazy_filter_iterator<auto, auto> & it)
     -> decltype(auto)
     { 
-        while (it.it != it.end_it)
+        while (not_equals(it.it, it.end_it))
         {
             next(it.it) ;
 
-            if constexpr (std::is_pointer_v<decltype(it.last_value)>)
-            { if (it.it != it.end_it && predicate(*(it.last_value = detail::ref_or_value(get(it))))) break ; }
-            else if (it.it != it.end_it && predicate(it.last_value = detail::ref_or_value(get(it)))) break ; 
+            if (not_equals(it.it, it.end_it) && it.predicate(value_of(it.last_value) = get(it))) 
+                break ; 
         }
 
         return it ;
     }
 
-    constexpr auto 
+    constexpr auto
     next (lazy_filter_iterator<auto, auto> const & it)
     -> decltype(auto)
     { 
-        while (it.it != it.end_it)
+        while (not_equals(it.it, it.end_it))
         {
             next(it.it) ;
 
-            if constexpr (std::is_pointer_v<decltype(it.last_value)>)
-            { if (it.it != it.end_it && predicate(*(it.last_value = detail::ref_or_value(get(it))))) break ; }
-            else if (it.it != it.end_it && predicate(it.last_value = detail::ref_or_value(get(it)))) break ; 
+            if (not_equals(it.it, it.end_it) && it.predicate(value_of(it.last_value) = get(it))) 
+                break ; 
         }
 
         return it ;
@@ -91,13 +86,12 @@ thodd
     next (lazy_filter_iterator<auto, auto> && it)
     -> decltype(auto)
     { 
-        while (it.it != it.end_it)
+        while (not_equals(it.it, it.end_it))
         {
             next(it.it) ;
 
-            if constexpr (std::is_pointer_v<decltype(it.last_value)>)
-            { if (it.it != it.end_it && predicate(*(it.last_value = detail::ref_or_value(get(it))))) break ; }
-            else if (it.it != it.end_it && predicate(it.last_value = detail::ref_or_value(get(it)))) break ; 
+            if (not_equals(it.it, it.end_it) && it.predicate(value_of(it.last_value) = get(it))) 
+                break ; 
         }
 
         return it ;
@@ -109,27 +103,21 @@ thodd
     get (lazy_filter_iterator<auto, auto> & it)
     -> decltype(auto)
     { 
-        if constexpr (std::is_pointer_v<decltype(it.last_value)>)
-            return *it.last_value ; 
-        else return it.last_value ; 
+        return value_of(it.last_value) ; 
     }
 
     constexpr auto
     get (lazy_filter_iterator<auto, auto> const & it)
     -> decltype(auto)
     { 
-        if constexpr (std::is_pointer_v<decltype(it.last_value)>)
-            return *it.last_value ; 
-        else return it.last_value ;
+        return value_of(it.last_value) ;
      }
 
     constexpr auto
     get (lazy_filter_iterator<auto, auto> && it)
     -> decltype(auto)
     { 
-        if constexpr (std::is_pointer_v<decltype(it.last_value)>)
-            return *it.last_value ; 
-        else return it.last_value ; 
+        return value_of(it.last_value) ; 
     }
 
 

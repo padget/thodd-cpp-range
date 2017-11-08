@@ -14,7 +14,7 @@ thodd
     find_first = 
     [] (auto && container, auto && predicate)
     {
-        using value_t = std::decay_t<decltype(*container.begin())> ;
+        using value_t = std::decay_t<decltype(get(begin(container)))> ;
         
         return 
         reduce (

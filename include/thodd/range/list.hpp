@@ -35,7 +35,7 @@ thodd
     push_back (list<auto> & l, auto && item)
     -> decltype(auto)
     {
-        l.push_back(std::forward<decltype(item)>(item)) ;
+        l.data.push_back(std::forward<decltype(item)>(item)) ;
         return l ;
     }
     

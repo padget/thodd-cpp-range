@@ -5,6 +5,7 @@
 #  include <algorithm>
 
 #  include <thodd/functional.hpp>
+#  include <thodd/range/for_each.hpp>
 
 namespace 
 thodd 
@@ -16,8 +17,9 @@ thodd
     {
         auto __acc = acc ;
         
-        for (auto && item : container)
-            __acc = std::forward<decltype(accumulator)>(accumulator)(__acc, item) ;
+        thodd::for_each (
+            container, 
+            [&__acc, &accumulator] (auto && item) { __acc = accumulator(__acc, item) ; }) ;
 
         return 
         __acc ;
