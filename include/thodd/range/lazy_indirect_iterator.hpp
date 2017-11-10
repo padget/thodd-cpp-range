@@ -2,6 +2,8 @@
 #  define __THODD_RANGE_LAZY_INDIRECT_ITERATOR_HPP__
 
 #  include <type_traits>
+#  include <utility>
+
 #  include <thodd/range/range.hpp>
 
 namespace
@@ -14,8 +16,15 @@ thodd
         iterator_t it ;
     } ;
 
-    template <typename iterator_t>
-    lazy_indirect_iterator (iterator_t) -> lazy_indirect_iterator<iterator_t> ;
+    constexpr auto 
+    make_lazy_indirect_iterator (
+        auto && it)
+    {
+        return 
+        lazy_indirect_iterator<
+            std::decay_t<decltype(it)>> 
+        { std::forward<decltype(it)>(it) } ;
+    }
 
     constexpr auto
     next (lazy_indirect_iterator<auto> & it)
@@ -73,9 +82,9 @@ thodd
     [] (auto && container) 
     {
         return 
-        range { 
-            lazy_indirect_iterator { begin(std::forward<decltype(container)>(container)) }, 
-            lazy_indirect_iterator { end(std::forward<decltype(container)>(container)) } } ;
+        make_range (
+            make_lazy_indirect_iterator(begin(std::forward<decltype(container)>(container))), 
+            make_lazy_indirect_iterator(end(std::forward<decltype(container)>(container)))) ;
     } ;
 
 }

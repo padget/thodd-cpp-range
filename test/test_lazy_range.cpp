@@ -7,11 +7,6 @@
 #include <cxxabi.h>
 
 
-/*template<size, type, gen>
-générateur it
-Array size type previousresults.
-*/
-
 template <
     size_t size_c, 
     typename type_t, 
@@ -20,6 +15,12 @@ struct generator_iterator
 {
     std::array<type_t, size_c> previous ;
     generator_t generator ;
+} ;
+
+template <typename ender_t>
+struct generator_end_iterator 
+{
+    ender_t ender ;
 } ;
 
 
@@ -55,7 +56,7 @@ next (generator_iterator<size_c, auto, auto> const & it)
         std::apply(
             [&it] (auto && ... previous) 
             { return it.generator (previous...) ; },  it.previous) ;
-
+  
     return it ;
 }
 
@@ -73,7 +74,7 @@ next (generator_iterator<size_c, auto, auto> && it)
         std::apply(
             [&it] (auto && ... previous) 
             { return it.generator (previous...) ; },  it.previous) ;
-
+        
     return it ;
 }
 
@@ -103,17 +104,28 @@ not_equals (
     generator_iterator<size_c, auto, auto> const & rit)
 { return lit.it != rit.it ; }
 
+template<size_t size_c>
+constexpr bool
+not_equals (
+    generator_iterator<size_c, auto, auto> const & lit, 
+    generator_end_iterator<auto> const & rit)
+{ return std::apply(rit.ender, lit.previous) ; }
+
 
 constexpr auto
-generate (auto && generator, auto && initial, auto && ... initials)
+generate (auto && generator, auto && ender, auto && initial, auto && ... initials)
 {
     return 
-    generator_iterator <
-        sizeof...(initials) + 1, 
-        std::decay_t<decltype(initial)>, 
-        std::decay_t<decltype(generator)>> 
-     { std::array{initial, initials... }, generator } ;
-
+    thodd::make_range (
+        generator_iterator <
+            sizeof...(initials) + 1, 
+            std::decay_t<decltype(initial)>, 
+            std::decay_t<decltype(generator)>> 
+        { std::array{initial, initials... }, generator }, 
+        generator_end_iterator <
+            std::decay_t<decltype(ender)>>
+        { ender } ) ;
+ 
 }
 
 
@@ -159,13 +171,12 @@ int main()
             annuaire, 
             [] (auto && p) -> decltype(auto) { return p.addr.rue ; }), 
         [] (auto && rue) { std::cout << rue << std::endl ; }) ;
-
-    /*std::cout << "filters" << std::endl ;
+    
+    std::cout << "filters" << std::endl ;
     auto nums = thodd::make_list(0, 1, 2, 3, 4, 5, 6) ;
-    std::cout << "debug\n" ;
     thodd::for_each(
         thodd::filter (nums, [] (auto && num) { return num % 2 == 0 ; } ),
-        [] (auto && num) { std::cout << num << std::endl ; }) ;
+        [] (auto && num) { std::cout << 'c' << num << std::endl ; }) ;
 
     std::cout << "sizes" << std::endl ;
 
@@ -206,19 +217,19 @@ int main()
 
     std::cout << "count " << thodd::count (sizes2, 18) << std::endl ;
     std::cout << "count " << thodd::count_if (sizes2, thodd::equal(thodd::val(1), thodd::$0)) << std::endl ;
-*/
+
     auto nums2 = thodd::make_array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) ;
     
     constexpr auto onlypair = [] (auto && item) { return item % 2 == 0 ; } ;
     constexpr auto threeless = [] (auto && item) { return item <= 3 ; } ;
 
-    // std::cout << "filters" << std::endl ;
+    std::cout << "filters" << std::endl ;
 
-    // thodd::for_each (
-    //     thodd::filters(nums2, threeless, onlypair), 
-    //     [] (auto && num) {std::cout << num << std::endl ; }) ;
+    thodd::for_each (
+        thodd::filters(nums2, threeless, onlypair), 
+        [] (auto && num) {std::cout << num << std::endl ; }) ;
 
-    // std::cout << "count_if pair " << thodd::count_if(nums2, onlypair) << std::endl ;
+    std::cout << "count_if pair " << thodd::count_if(nums2, onlypair) << std::endl ;
 
     std::cout << "collect " << std::endl ;
     thodd::for_each (
@@ -263,8 +274,29 @@ int main()
 
     std::cout << "generate\n" ;
     
-    auto toot = generate([](auto && n_1) { return n_1 +1 ;}, 0) ;
+    auto toot = generate (
+        [](auto && n_1) { return n_1 + 1 ; }, 
+        [](auto && n_n) { return n_n < 100 ; }, 0) ;
 
-    while (get(toot) < 12)
-        std::cout << get(next(toot)) << std::endl ;
+    thodd::for_each (toot, [](auto && item) { std::cout << item << std::endl ; }) ;
+
+    std::cout << "set" << std::endl ;
+    auto oneset = thodd::make_set(1,2,3,4,4,5,5,5,6,7,8,9) ;
+    thodd::for_each(oneset, [] (auto && item) { std::cout << item << std::endl ; } ) ;
+
+    std::cout << "step" << std::endl ;
+    thodd::for_each(
+        thodd::step (
+            oneset, 
+            [] (auto && it, auto && end_it) -> decltype(auto) 
+            { 
+                if(thodd::not_equals(it, end_it))
+                    next(it) ;
+                
+                if(thodd::not_equals(it, end_it))
+                    next(it) ;
+
+                return it ;
+             }),
+        [] (auto && item) { std::cout << item << std::endl ; }) ;
 }

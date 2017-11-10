@@ -2,7 +2,6 @@
 #  define __THODD_RANGE_LIST_HPP__
 
 #  include <list>
-#  include <iostream>
 
 namespace 
 thodd

@@ -15,9 +15,14 @@ thodd
     project = 
     [] (auto && container, auto && projector)
     { 
-        return range 
-        { lazy_iterator {begin(std::forward<decltype(container)>(container)), projector }, 
-          lazy_iterator {end(std::forward<decltype(container)>(container)), projector } } ; 
+        return 
+        make_range(
+            make_lazy_iterator(
+                begin(std::forward<decltype(container)>(container)), 
+                std::forward<decltype(projector)>(projector)), 
+            make_lazy_iterator(
+                end(std::forward<decltype(container)>(container)), 
+                std::forward<decltype(projector)>(projector))) ; 
     } ;
 
     inline constexpr auto 

@@ -6,7 +6,6 @@
 namespace 
 thodd
 {
-    
     template <
         typename key_t,
         typename type_t>

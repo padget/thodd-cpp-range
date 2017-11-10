@@ -2,6 +2,7 @@
 #  define __THODD_RANGE_LAZY_ITERATOR_HPP__
 
 #  include <type_traits>
+#  include <utility>
 
 namespace 
 thodd 
@@ -15,9 +16,19 @@ thodd
         apply_t apply ;
     } ;
 
-    template <typename iterator_t, typename apply_t>
-    lazy_iterator (iterator_t, apply_t) -> lazy_iterator<iterator_t, apply_t> ;
 
+    constexpr auto 
+    make_lazy_iterator (
+        auto && it, 
+        auto && apply)
+    {
+        return 
+        lazy_iterator<
+            std::decay_t<decltype(it)>, 
+            std::decay_t<decltype(apply)>>
+        { std::forward<decltype(it)>(it),
+          std::forward<decltype(apply)>(apply)} ;
+    }
 
     
     constexpr auto

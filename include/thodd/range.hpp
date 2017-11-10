@@ -9,7 +9,6 @@
 
 #  include <thodd/range/range.hpp>
 #  include <thodd/range/lazy_iterator.hpp>
-#  include <thodd/range/lazy_filter_iterator.hpp>
 #  include <thodd/range/lazy_indirect_iterator.hpp>
 #  include <thodd/range/collect.hpp>
 #  include <thodd/range/collectors.hpp>
@@ -22,6 +21,7 @@
 #  include <thodd/range/map.hpp>
 #  include <thodd/range/minmax.hpp>
 #  include <thodd/range/reduce.hpp>
-#  include <thodd/range/sort.hpp>
+#  include <thodd/range/set.hpp>
+#  include <thodd/range/step.hpp>
 
 #endif

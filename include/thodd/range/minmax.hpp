@@ -16,7 +16,7 @@ thodd
         return 
         reduce (
             std::forward<decltype(container)>(container),
-            optional<std::decay_t<decltype(*container.begin())>>{}, 
+            optional<std::decay_t<decltype(get(begin(container)))>>{}, 
             [comparator] (auto && acc, auto && item) 
             {
                 if(!has_value(acc)) return make_optional(item) ;
@@ -31,7 +31,7 @@ thodd
         return 
         reduce (
             std::forward<decltype(container)>(container),
-            optional<std::decay_t<decltype(*container.begin())>>{}, 
+            optional<std::decay_t<decltype(get(begin(container)))>>{}, 
             [comparator] (auto && acc, auto && item) 
             {
                 if(!has_value(acc)) return make_optional(item) ;
