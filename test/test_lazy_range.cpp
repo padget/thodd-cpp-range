@@ -7,126 +7,7 @@
 #include <cxxabi.h>
 
 
-template <
-    size_t size_c, 
-    typename type_t, 
-    typename generator_t>
-struct generator_iterator 
-{
-    std::array<type_t, size_c> previous ;
-    generator_t generator ;
-} ;
 
-template <typename ender_t>
-struct generator_end_iterator 
-{
-    ender_t ender ;
-} ;
-
-
-template<size_t size_c>
-constexpr auto 
-next (generator_iterator<size_c, auto, auto> & it)
--> decltype(auto)
-{ 
-    std::rotate(
-        it.previous.begin(), 
-        it.previous.begin() + 1, 
-        it.previous.end()) ;
-
-    it.previous[size_c - 1] = 
-        std::apply(
-            [&it] (auto && ... previous) 
-            { return it.generator (previous...) ; },  it.previous) ;
-
-    return it ;
-}
-
-template<size_t size_c>
-constexpr auto 
-next (generator_iterator<size_c, auto, auto> const & it)
--> decltype(auto)
-{ 
-    std::rotate(
-        it.previous.begin(), 
-        it.previous.begin() + 1, 
-        it.previous.end()) ;
-
-    it.previous[size_c - 1] = 
-        std::apply(
-            [&it] (auto && ... previous) 
-            { return it.generator (previous...) ; },  it.previous) ;
-  
-    return it ;
-}
-
-template<size_t size_c>
-constexpr auto 
-next (generator_iterator<size_c, auto, auto> && it)
--> decltype(auto)
-{ 
-    std::rotate(
-        it.previous.begin(), 
-        it.previous.begin() + 1, 
-        it.previous.end()) ;
-
-    it.previous[size_c - 1] = 
-        std::apply(
-            [&it] (auto && ... previous) 
-            { return it.generator (previous...) ; },  it.previous) ;
-        
-    return it ;
-}
-
-template<size_t size_c>
-constexpr auto 
-get (generator_iterator<size_c, auto, auto> & it)
--> decltype(auto)
-{  return it.previous[size_c - 1] ; }
-
-template<size_t size_c>
-constexpr auto 
-get (generator_iterator<size_c, auto, auto> const & it)
--> decltype(auto)
-{ return it.previous[size_c - 1] ; }
-
-
-template<size_t size_c>
-constexpr auto 
-get (generator_iterator<size_c, auto, auto> && it)
--> decltype(auto)
-{ return it.previous[size_c - 1] ; }
-
-template<size_t size_c>
-constexpr bool
-not_equals (
-    generator_iterator<size_c, auto, auto> const & lit, 
-    generator_iterator<size_c, auto, auto> const & rit)
-{ return lit.it != rit.it ; }
-
-template<size_t size_c>
-constexpr bool
-not_equals (
-    generator_iterator<size_c, auto, auto> const & lit, 
-    generator_end_iterator<auto> const & rit)
-{ return std::apply(rit.ender, lit.previous) ; }
-
-
-constexpr auto
-generate (auto && generator, auto && ender, auto && initial, auto && ... initials)
-{
-    return 
-    thodd::make_range (
-        generator_iterator <
-            sizeof...(initials) + 1, 
-            std::decay_t<decltype(initial)>, 
-            std::decay_t<decltype(generator)>> 
-        { std::array{initial, initials... }, generator }, 
-        generator_end_iterator <
-            std::decay_t<decltype(ender)>>
-        { ender } ) ;
- 
-}
 
 
 template<
@@ -274,7 +155,7 @@ int main()
 
     std::cout << "generate\n" ;
     
-    auto toot = generate (
+    auto toot = thodd::generate (
         [](auto && n_1) { return n_1 + 1 ; }, 
         [](auto && n_n) { return n_n < 10 ; }, 0) ;
 
@@ -303,30 +184,10 @@ int main()
     std::cout << "steps" << std::endl ;
     std::cout << "prototype of split string function by a delimiter char\n" ;
 
-    auto input = thodd::make_array('u','n',' ','m','o','t',' ','c','o','u','p','e') ;
+    auto input = thodd::make_array('u','n',' ','m','o','t',' ','c','o','u','p','e', ' ') ;
 
     std::cout << "il me faut une fonction fasse du step par un délimiter\n" ;
-    constexpr auto next_while = 
-    [] (auto && predicate) 
-        {
-            return 
-            [predicate] (auto && it, auto const & end_it) 
-            {
-                while (thodd::not_equals (it, end_it) && predicate (it))
-                    thodd::next (it) ;
-            } ;
-        } ;
 
-    constexpr auto next_if = 
-    [] (auto && predicate) 
-    {
-        return 
-        [predicate] (auto && it, auto const & end_it) 
-        {
-            if (thodd::not_equals (it, end_it) && predicate (it))
-                thodd::next (it) ;
-        } ;
-    } ;
     
     constexpr auto splitter_step = 
         [delimiter = ' '] (auto && begin_it, auto && end_it)
@@ -334,25 +195,36 @@ int main()
             auto predicate = 
                 [delimiter] (auto && begin_it) 
                 { return thodd::get(begin_it) != delimiter ; } ;
-            advance_while (predicate) (
+            thodd::next_while (predicate) (
                 std::forward<decltype(begin_it)>(begin_it), 
                 std::forward<decltype(end_it)>(end_it)) ;
-            advance_if (thodd::val(true)) (
+            thodd::next_if (thodd::val(true)) (
                 std::forward<decltype(begin_it)>(begin_it), 
                 std::forward<decltype(end_it)>(end_it)) ;
         } ; 
 
-    thodd::for_each (
-        thodd::step (input, splitter_step), 
-        [] (auto && step_it) {
-            std::cout << "resultat [" 
-                      << thodd::get(step_it.begin_it) 
-                      << '-' 
-                      << thodd::get(step_it.it) 
-                      << '[' << std::endl ;
-            thodd::for_each (
-                thodd::make_range (step_it.begin_it, step_it.it),
-                [] (auto && c) { std::cout << c ; }) ; 
-            std::cout << std::endl ; }) ;
-    
+    constexpr auto split = 
+    [splitter_step] (auto && container) 
+    {
+        return 
+        thodd::project (
+            thodd::step (
+                container, 
+                splitter_step), 
+            [] (auto && step_it) 
+            {
+                return 
+                thodd::filter(
+                    thodd::make_range (step_it.begin_it, step_it.it),
+                        [] (auto && c) { return c != ' ' ; }) ; 
+            }) ;
+    } ;
+
+    thodd::for_each(split(input), [] (auto && word) {
+        std::cout << '"' ;
+        thodd::for_each(word, [] (auto && c) {
+            std::cout << c ;
+        });
+        std::cout << '"' << std::endl ;
+    }) ;
 }
