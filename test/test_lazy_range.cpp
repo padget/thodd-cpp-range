@@ -276,12 +276,12 @@ int main()
     
     auto toot = generate (
         [](auto && n_1) { return n_1 + 1 ; }, 
-        [](auto && n_n) { return n_n < 100 ; }, 0) ;
+        [](auto && n_n) { return n_n < 10 ; }, 0) ;
 
     thodd::for_each (toot, [](auto && item) { std::cout << item << std::endl ; }) ;
 
     std::cout << "set" << std::endl ;
-    auto oneset = thodd::make_set(1,2,3,4,4,5,5,5,6,7,8,9) ;
+    auto oneset = thodd::make_set(1, 2, 3, 4, 4, 5, 5, 5, 6, 7, 8, 9) ;
     thodd::for_each(oneset, [] (auto && item) { std::cout << item << std::endl ; } ) ;
 
     std::cout << "step" << std::endl ;
@@ -298,5 +298,65 @@ int main()
 
                 return it ;
              }),
-        [] (auto && item) { std::cout << item << std::endl ; }) ;
+        [] (auto && item) { std::cout << thodd::get(item.it) << std::endl ; }) ;
+
+    std::cout << "steps" << std::endl ;
+    std::cout << "prototype of split string function by a delimiter char\n" ;
+
+    auto input = thodd::make_array('u','n',' ','m','o','t',' ','c','o','u','p','e') ;
+
+    std::cout << "il me faut une fonction fasse du step par un délimiter\n" ;
+    constexpr auto advance_while = 
+    [] (auto && predicate) 
+        {
+            return 
+            [predicate] (auto && it, auto const & end_it) 
+            {
+                while (thodd::not_equals (it, end_it) && predicate (it))
+                {
+                    std::cout << "step " << thodd::get(it) << std::endl ;
+                    thodd::next (it) ;
+                    std::cout << "end_step " << thodd::get(it) << std::endl ;
+                }
+            } ;
+        } ;
+
+    constexpr auto advance_if = 
+    [] (auto && predicate) 
+    {
+        return 
+        [predicate] (auto && it, auto const & end_it) 
+        {
+            if (thodd::not_equals (it, end_it) && predicate (it))
+                thodd::next (it) ;
+        } ;
+    } ;
+    
+    constexpr auto splitter_step = 
+        [delimiter = ' '] (auto && begin_it, auto && end_it)
+        {
+            auto predicate = 
+                [delimiter] (auto && begin_it) 
+                { return thodd::get(begin_it) != delimiter ; } ;
+            advance_while (predicate) (
+                std::forward<decltype(begin_it)>(begin_it), 
+                std::forward<decltype(end_it)>(end_it)) ;
+            advance_if (thodd::val(true)) (
+                std::forward<decltype(begin_it)>(begin_it), 
+                std::forward<decltype(end_it)>(end_it)) ;
+        } ; 
+
+    thodd::for_each (
+        thodd::step (input, splitter_step), 
+        [] (auto && step_it) {
+            std::cout << "resultat [" 
+                      << thodd::get(step_it.begin_it) 
+                      << '-' 
+                      << thodd::get(step_it.it) 
+                      << '[' << std::endl ;
+            thodd::for_each (
+                thodd::make_range (step_it.begin_it, step_it.it),
+                [] (auto && c) { std::cout << c ; }) ; 
+            std::cout << std::endl ; }) ;
+    
 }

@@ -31,34 +31,40 @@ thodd
             std::decay_t<decltype(first)>, 
             1 + sizeof...(item)>
         {
-            std::forward<decltype(first)>(first), 
-            std::forward<decltype(item)>(item)...
+            { std::forward<decltype(first)>(first), 
+              std::forward<decltype(item)>(item)... }
         } ;
     }
 
   
-    constexpr array_iterator<auto> & 
+    constexpr auto 
     next (array_iterator<auto> & it)
+    -> decltype(auto)
     { return (++ it.ptr, it) ; }
 
-    constexpr array_iterator<auto> const & 
+    constexpr auto 
     next (array_iterator<auto> const & it)
+    -> decltype(auto)
     { return (++ it.ptr, it) ; }
     
-    constexpr array_iterator<auto> && 
+    constexpr auto
     next (array_iterator<auto> && it)
+    -> decltype(auto)
     { return (++ it.ptr, it) ; }
 
-    constexpr auto & 
+    constexpr auto
     get (array_iterator<auto> & it)
+    -> decltype(auto)
     { return *it.ptr ; }
 
-    constexpr auto const & 
+    constexpr auto 
     get (array_iterator<auto> const & it)
+    -> decltype(auto)
     { return *it.ptr ; }
     
-    constexpr auto && 
+    constexpr auto 
     get (array_iterator<auto> && it)
+    -> decltype(auto)
     { return *it.ptr ; }
 
     constexpr bool

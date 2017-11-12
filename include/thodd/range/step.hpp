@@ -14,6 +14,7 @@ thodd
         begin_t it ;
         end_t end_it ;
         stepper_t stepper ;
+        bool end_accessed { not_equals (it, end_it) } ;
     } ;
 
     template <
@@ -27,7 +28,11 @@ thodd
     -> decltype(auto)
     { 
         it.begin_it = it.it ;
-        it.stepper(it.it, it.end_it) ; 
+        
+        if (not_equals(it.it, it.end_it))
+            it.stepper(it.it, it.end_it) ; 
+        else if (!it.end_accessed)
+            it.end_accessed = true ;
 
         return it ;
     }
@@ -37,7 +42,11 @@ thodd
     -> decltype(auto)
     { 
         it.begin_it = it.it ;
-        it.stepper(it.it, it.end_it) ;
+        
+        if (not_equals(it.it, it.end_it))
+            it.stepper(it.it, it.end_it) ;
+        else if (!it.end_accessed)
+            it.end_accessed = true ;
 
         return it ;
     }
@@ -47,7 +56,11 @@ thodd
     -> decltype(auto)
     { 
         it.begin_it = it.it ;
-        it.stepper(it.it, it.end_it) ;
+        
+        if (not_equals(it.it, it.end_it))
+            it.stepper(it.it, it.end_it) ;
+        else if (!it.end_accessed)
+            it.end_accessed = true ;
 
         return it ;
     }
@@ -57,17 +70,17 @@ thodd
     constexpr auto 
     get (lazy_step_iterator<auto, auto, auto> & it)
     -> decltype(auto)
-    { return  get(it.it); }
+    { return it ; }
 
     constexpr auto
     get (lazy_step_iterator<auto, auto, auto> const & it)
     -> decltype(auto)
-    { return get(it.it) ; }
+    { return it ; }
 
     constexpr auto
     get (lazy_step_iterator<auto, auto, auto> && it)
     -> decltype(auto)
-    { return get(it.it) ; }
+    { return it ; }
 
 
 
@@ -88,6 +101,9 @@ thodd
         auto begin_step = lazy_step_iterator { begin_it, begin_it, end_it, std::forward<decltype(stepper)>(stepper)} ; 
         auto end_step = lazy_step_iterator { end_it, end_it, end_it, std::forward<decltype(stepper)>(stepper)} ; 
         
+        std::cout << "step preparing ...\n" ; 
+        next (begin_step) ;
+        std::cout << "step prepared !\n" ;
         return 
         make_range (begin_step, end_step);
     } ;
