@@ -306,22 +306,18 @@ int main()
     auto input = thodd::make_array('u','n',' ','m','o','t',' ','c','o','u','p','e') ;
 
     std::cout << "il me faut une fonction fasse du step par un délimiter\n" ;
-    constexpr auto advance_while = 
+    constexpr auto next_while = 
     [] (auto && predicate) 
         {
             return 
             [predicate] (auto && it, auto const & end_it) 
             {
                 while (thodd::not_equals (it, end_it) && predicate (it))
-                {
-                    std::cout << "step " << thodd::get(it) << std::endl ;
                     thodd::next (it) ;
-                    std::cout << "end_step " << thodd::get(it) << std::endl ;
-                }
             } ;
         } ;
 
-    constexpr auto advance_if = 
+    constexpr auto next_if = 
     [] (auto && predicate) 
     {
         return 

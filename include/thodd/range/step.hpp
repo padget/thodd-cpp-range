@@ -14,7 +14,7 @@ thodd
         begin_t it ;
         end_t end_it ;
         stepper_t stepper ;
-        bool end_accessed { not_equals (it, end_it) } ;
+        bool end_accessed { !not_equals (it, end_it) } ;
     } ;
 
     template <
@@ -88,7 +88,11 @@ thodd
     not_equals (
         lazy_step_iterator<auto, auto, auto> const & lit, 
         lazy_step_iterator<auto, auto, auto> const & rit)
-    { return not_equals(lit.it, rit.it) ; }
+    { 
+        return 
+        (!lit.end_accessed || !rit.end_accessed) 
+        && !not_equals (lit.end_it, rit.end_it) ;
+    }
 
 
 
@@ -100,10 +104,8 @@ thodd
         auto begin_it = begin(std::forward<decltype(container)>(container)) ;
         auto begin_step = lazy_step_iterator { begin_it, begin_it, end_it, std::forward<decltype(stepper)>(stepper)} ; 
         auto end_step = lazy_step_iterator { end_it, end_it, end_it, std::forward<decltype(stepper)>(stepper)} ; 
-        
-        std::cout << "step preparing ...\n" ; 
         next (begin_step) ;
-        std::cout << "step prepared !\n" ;
+
         return 
         make_range (begin_step, end_step);
     } ;
