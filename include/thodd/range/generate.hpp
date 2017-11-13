@@ -39,7 +39,7 @@ thodd
         it.previous[size_c - 1] = 
             std::apply(
                 [&it] (auto && ... previous) 
-                { return it.generator (previous...) ; },  it.previous) ;
+                { return it.generator (std::forward<decltype(previous)>(previous)...) ; },  it.previous) ;
 
         return it ;
     }
@@ -57,7 +57,7 @@ thodd
         it.previous[size_c - 1] = 
             std::apply(
                 [&it] (auto && ... previous) 
-                { return it.generator (previous...) ; },  it.previous) ;
+                { return it.generator (std::forward<decltype(previous)>(previous)...) ; },  it.previous) ;
       
         return it ;
     }
@@ -75,7 +75,7 @@ thodd
         it.previous[size_c - 1] = 
             std::apply(
                 [&it] (auto && ... previous) 
-                { return it.generator (previous...) ; },  it.previous) ;
+                { return it.generator (std::forward<decltype(previous)>(previous)...) ; },  it.previous) ;
             
         return it ;
     }
@@ -127,10 +127,10 @@ thodd
                 sizeof...(initials) + 1, 
                 std::decay_t<decltype(initial)>, 
                 std::decay_t<decltype(generator)>> 
-            { std::array{initial, initials... }, generator }, 
+            { std::array{std::forward<decltype(initial)>(initial), std::forward<decltype(initials)>(initials)... }, std::forward<decltype(generator)>(generator) }, 
             generator_end_iterator <
                 std::decay_t<decltype(ender)>>
-            { ender } ) ;
+            { std::forward<decltype(ender)>(ender) } ) ;
     
     }
 }
