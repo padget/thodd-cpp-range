@@ -20,7 +20,7 @@ thodd
             [comparator] (auto && acc, auto && item) 
             {
                 if(!has_value(acc)) return make_optional(item) ;
-                else return comparator(value_of(acc), item) ? make_optional (item) : acc ; 
+                else return comparator(value_of(acc), item) ? acc : make_optional (item) ; 
             }) ;
     } ;
 
@@ -35,7 +35,7 @@ thodd
             [comparator] (auto && acc, auto && item) 
             {
                 if(!has_value(acc)) return make_optional(item) ;
-                else return comparator(value_of(acc), item) ? make_optional (item) : acc ; 
+                else return comparator(value_of(acc), item) ? acc : make_optional (item) ; 
             }) ;
     } ;
 }

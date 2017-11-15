@@ -7,6 +7,7 @@
 #  include <thodd/range/list.hpp>
 #  include <thodd/range/map.hpp>
 #  include <thodd/range/set.hpp>
+#  include <thodd/range/string.hpp>
 
 #  include <thodd/range/range.hpp>
 

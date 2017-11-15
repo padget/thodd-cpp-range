@@ -40,6 +40,10 @@ struct person
     address addr ;
 } ;
 
+
+
+
+
 int main()
 {
     auto annuaire = thodd::make_list( 
@@ -227,4 +231,10 @@ int main()
         });
         std::cout << '"' << std::endl ;
     }) ;
+
+    std::cout << "string" << std::endl ;
+    auto str = thodd::make_string("coucou") ;
+    thodd::for_each(
+        str, [] (auto const & c) { std::cout << c << ' ' ; });
+    std::cout << std::endl ;
 }
