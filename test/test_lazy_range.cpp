@@ -188,7 +188,7 @@ int main()
     std::cout << "steps" << std::endl ;
     std::cout << "prototype of split string function by a delimiter char\n" ;
 
-    auto input = thodd::make_array('u','n',' ','m','o','t',' ','c','o','u','p','e', ' ') ;
+    auto input = thodd::make_string("un mot coupe") ;
 
     std::cout << "il me faut une fonction fasse du step par un délimiter\n" ;
 
