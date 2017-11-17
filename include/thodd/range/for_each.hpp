@@ -24,6 +24,48 @@ thodd
         return 
         (container) ;
     }
+
+    constexpr auto 
+    for_each_initially (
+        auto && container, 
+        auto && todo, 
+        auto && initially)
+    {
+        std::forward<decltype(initially)>(initially)() ;
+
+        for_each(
+            std::forward<decltype(container)>(container),
+            std::forward<decltype(todo)>(todo)) ;
+    }
+
+    constexpr auto 
+    for_each_finally (
+        auto && container, 
+        auto && todo, 
+        auto && finally)
+    {
+        for_each(
+            std::forward<decltype(container)>(container),
+            std::forward<decltype(todo)>(todo)) ;
+
+        std::forward<decltype(finally)>(finally)() ;
+    }
+
+    constexpr auto 
+    for_each_inifinally (
+        auto && container, 
+        auto && todo, 
+        auto && initially,
+        auto && finally)
+    {
+        std::forward<decltype(initially)>(initially)() ;
+
+        for_each(
+            std::forward<decltype(container)>(container),
+            std::forward<decltype(todo)>(todo)) ;
+
+        std::forward<decltype(finally)>(finally)() ;
+    }
 }
 
 #endif
