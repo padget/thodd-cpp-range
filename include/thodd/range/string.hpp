@@ -27,9 +27,6 @@ thodd
     make_string (type_t const* data)
     { return string<type_t> { data } ; }
 
-
-
-
     constexpr auto 
     next (string_iterator<auto> & it)
     -> decltype(auto)
@@ -43,10 +40,7 @@ thodd
     constexpr auto 
     next (string_iterator<auto> && it)
     -> decltype(auto)
-    { 
-        ++it.it ;
-        return it ;
-    }
+    { ++it.it ; return it ; }
 
     constexpr auto 
     get (string_iterator<auto> & it)
