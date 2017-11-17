@@ -194,14 +194,16 @@ int main()
 
     
     constexpr auto splitter_step = 
-        [delimiter = ' '] (auto && begin_it, auto && end_it)
+        [delimiter = ' '] (auto && begin_it, auto const & end_it)
         {
             auto predicate = 
                 [delimiter] (auto && begin_it) 
                 { return thodd::get(begin_it) != delimiter ; } ;
+
             thodd::next_while (predicate) (
                 std::forward<decltype(begin_it)>(begin_it), 
                 std::forward<decltype(end_it)>(end_it)) ;
+
             thodd::next_if (thodd::val(true)) (
                 std::forward<decltype(begin_it)>(begin_it), 
                 std::forward<decltype(end_it)>(end_it)) ;

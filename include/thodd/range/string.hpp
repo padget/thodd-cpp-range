@@ -2,11 +2,11 @@
 #  define __THODD_RANGE_STRING_HPP__
 
 #  include <string>
+#  include <algorithm>
 
 namespace 
 thodd
 {
-    
     template <
         typename type_t>
     struct string
@@ -123,6 +123,11 @@ thodd
         thodd::string_iterator<type_t>
         { lis.data.end() } ;
     }
+
+
+    constexpr auto 
+    size (thodd::string<auto> const & str)
+    { return str.data.size() ; }
 }
 
 #endif

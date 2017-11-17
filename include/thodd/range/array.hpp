@@ -6,7 +6,6 @@
 namespace 
 thodd
 {
-
     template <
         typename type_t, 
         size_t size_c>
@@ -141,6 +140,14 @@ thodd
         thodd::array_iterator<type_t>
         { arr.data + size_c } ;
     }
+
+
+    template <
+        typename type_t,
+        size_t size_c>
+    constexpr auto
+    size(thodd::array<type_t, size_c> const & arr)
+    { return size_c ; }
 }
 
 #endif

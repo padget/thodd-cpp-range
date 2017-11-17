@@ -4,6 +4,8 @@
 #  include <utility>
 #  include <type_traits>
 
+#  include <thodd/range/distance.hpp>
+
 namespace thodd 
 {
     template <
@@ -56,6 +58,12 @@ namespace thodd
     constexpr auto
     end (thodd::range<auto, auto> && lis)
     { return lis.end_it ; }
+
+
+
+    constexpr auto
+    size(thodd::range<auto, auto> const & rg)
+    { return thodd::distance(rg) ; }
 }
 
 
