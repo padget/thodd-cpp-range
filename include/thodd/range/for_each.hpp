@@ -26,6 +26,19 @@ thodd
     }
 
     constexpr auto 
+    for_each_i (
+      auto && container, 
+      auto && todo)
+    {
+      size_t index = 0u ; 
+      return 
+      thodd::for_each (
+        std::forward<decltype(container)>(container), 
+        [&index, &todo] (auto && item) 
+        { todo(std::forward<decltype(item)>(item), index) ; }) ;
+    }
+
+    constexpr auto 
     for_each_initially (
         auto && container, 
         auto && todo, 

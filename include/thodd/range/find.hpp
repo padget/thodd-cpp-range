@@ -19,7 +19,7 @@ thodd
         return 
         reduce (
             std::forward<decltype(container)>(container),
-            optional<value_t>{}, 
+            thodd::optional<value_t>{}, 
             [predicate] (auto & acc, auto && item)
             { 
                 return 
