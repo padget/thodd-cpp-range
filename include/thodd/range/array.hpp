@@ -29,28 +29,43 @@ thodd
 
 
   constexpr auto 
-  next (array_iterator<auto> & it)
+  next (typename array<auto>::iterator & it)
   -> decltype(auto)
-  { return (++ it.ptr, it) ; }
+  { return ++it ; }
 
   constexpr auto 
-  next (array_iterator<auto> const & it)
+  next (typename array<auto>::const_iterator & it)
   -> decltype(auto)
-  { return (++ it.ptr, it) ; }
+  { return ++it ; }
   
-  constexpr auto
-  next (array_iterator<auto> && it)
+  constexpr auto 
+  next (typename array<auto>::iterator && it)
   -> decltype(auto)
-  { return (++ it.ptr, it) ; }
+  { return ++it ; }
 
+  constexpr auto 
+  next (typename array<auto>::const_iterator && it)
+  -> decltype(auto)
+  { return ++it ; }
+  
 
   constexpr auto
-  get (typename array<auto>::iterator it)
+  get (typename array<auto>::iterator & it)
   -> decltype(auto)
   { return *it.ptr ; }
 
   constexpr auto 
-  get (typename array<auto>::const_iterator it)
+  get (typename array<auto>::const_iterator & it)
+  -> decltype(auto)
+  { return *it.ptr ; }
+
+  constexpr auto
+  get (typename array<auto>::iterator && it)
+  -> decltype(auto)
+  { return *it.ptr ; }
+
+  constexpr auto 
+  get (typename array<auto>::const_iterator && it)
   -> decltype(auto)
   { return *it.ptr ; }
 
@@ -72,34 +87,34 @@ thodd
   template <
     typename type_t,
     size_t size_c>
-  constexpr thodd::array_iterator<type_t> 
-  begin (thodd::array<type_t, size_c> & arr)
+  constexpr auto
+  begin (array<type_t, size_c> & arr)
+  -> decltype(auto)
   {
     return 
-    thodd::array_iterator<type_t>
-    { arr.data } ;
+    arr.begin() ;
   }
 
   template <
     typename type_t,
     size_t size_c>
-  constexpr thodd::array_iterator<type_t> const 
-  begin (thodd::array<type_t, size_c> const & arr)
+  constexpr auto 
+  begin (array<type_t, size_c> const & arr)
+  -> decltype(auto)
   {
     return 
-    thodd::array_iterator<type_t>
-    { arr.data } ;
+    arr.begin() ;
   }
   
   template <
     typename type_t,
     size_t size_c>
-  constexpr thodd::array_iterator<type_t> const 
-  begin (thodd::array<type_t, size_c> && arr)
+  constexpr auto 
+  begin (array<type_t, size_c> && arr)
+  -> decltype(auto)
   {
     return 
-    thodd::array_iterator<type_t>
-    { arr.data } ;
+    arr.begin() ;
   }
 
   
@@ -107,34 +122,33 @@ thodd
   template <
     typename type_t,
     size_t size_c>
-  constexpr thodd::array_iterator<type_t> 
-  end (thodd::array<type_t, size_c> & arr)
+  constexpr auto 
+  end (array<type_t, size_c> & arr)
+  -> decltype(auto)
   {
     return 
-    thodd::array_iterator<type_t>
-    { arr.data + size_c } ;
+    arr.end() ;
   }
 
   template <
     typename type_t,
     size_t size_c>
-  constexpr thodd::array_iterator<type_t> const
-  end (thodd::array<type_t, size_c> const & arr)
+  constexpr auto
+  end (array<type_t, size_c> const & arr)
+  -> decltype(auto)
   {
     return 
-    thodd::array_iterator<type_t>
-    { arr.data + size_c } ;
+    arr.end() ;
   }
   
   template <
     typename type_t,
     size_t size_c>
-  constexpr thodd::array_iterator<type_t> const
+  constexpr auto
   end (thodd::array<type_t, size_c> && arr)
   {
     return 
-    thodd::array_iterator<type_t>
-    { arr.data + size_c } ;
+    arr.end() ;
   }
 
 
@@ -142,7 +156,7 @@ thodd
     typename type_t,
     size_t size_c>
   constexpr auto
-  size(thodd::array<type_t, size_c> const & arr)
+  size(array<type_t, size_c> const &)
   { return size_c ; }
 }
 
