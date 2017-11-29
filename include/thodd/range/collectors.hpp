@@ -14,53 +14,6 @@ namespace
 thodd 
 {
     inline constexpr auto 
-    to_std_list = 
-    [] (auto && container)
-    {
-        std::list<std::decay_t<decltype(get(begin(std::forward<decltype(container)>(container))))>> collected ;
-
-        thodd::for_each(
-            std::forward<decltype(container)>(container), 
-            [&collected] (auto && item) { collected.push_back (std::forward<decltype(item)>(item)) ; }) ;
-
-        return 
-        collected ;
-    } ;
-
-    inline constexpr auto 
-    to_std_vector = 
-    [] (auto && container)
-    {
-        std::vector<std::decay_t<decltype(get(begin(std::forward<decltype(container)>(container))))>> collected ;
-
-        thodd::for_each(
-            std::forward<decltype(container)>(container), 
-            [&collected] (auto && item) { collected.push_back (std::forward<decltype(item)>(item)) ; }) ;
-
-        return 
-        collected ;
-    } ;
-
-    inline constexpr auto
-    to_std_map = 
-    [] (auto && key_map, auto && value_map)
-    {
-        return 
-        [key_map, value_map] (auto && container)
-        {
-            using key_t = std::decay_t<decltype(key_map(get(begin(container))))>;
-            using value_t = std::decay_t<decltype(value_map(get(begin(container))))>;
-            std::map<key_t, value_t> collected ;
-
-            for (auto && item : std::forward<decltype(container)>(container)) 
-                collected[key_map(item)] = value_map(item) ;
-
-            return 
-            collected ;
-        } ;
-    } ;
-
-    inline constexpr auto 
     to_map = 
     [] (auto && key_map, auto && value_map)
     {
@@ -93,6 +46,20 @@ thodd
             std::forward<decltype(container)>(container),
             [&collected] (auto && item) 
             { push_back (collected, std::forward<decltype(item)>(item)) ; }) ;
+        
+        return collected ;
+    } ;
+
+    inline constexpr auto 
+    to_set = 
+    [] (auto && container) 
+    {
+        thodd::set<typename std::decay_t<decltype(get(begin(container)))>> collected ;
+
+        for_each (
+            std::forward<decltype(container)>(container),
+            [&collected] (auto && item) 
+            { insert (collected, std::forward<decltype(item)>(item)) ; }) ;
         
         return collected ;
     } ;
