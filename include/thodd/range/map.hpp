@@ -9,7 +9,7 @@ thodd
   template <
     typename key_t,
     typename type_t>
-  using map = std::map<key_t, type_t> data ;
+  using map = std::map<key_t, type_t> ;
   
   constexpr auto 
   push (

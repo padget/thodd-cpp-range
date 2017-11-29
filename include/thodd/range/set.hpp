@@ -8,7 +8,7 @@ thodd
 {
   template <
     typename type_t>
-  using set = std::set<type_t> data ;
+  using set = std::set<type_t> ;
 
   constexpr auto
   make_set (auto && first, auto && ... item)

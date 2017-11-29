@@ -26,7 +26,7 @@ thodd
     }
 
     constexpr auto 
-    for_each_i (
+    for_eachi (
       auto && container, 
       auto && todo)
     {
@@ -35,7 +35,7 @@ thodd
       thodd::for_each (
         std::forward<decltype(container)>(container), 
         [&index, &todo] (auto && item) 
-        { todo(std::forward<decltype(item)>(item), index) ; }) ;
+        { todo(std::forward<decltype(item)>(item), index++) ; }) ;
     }
 
     constexpr auto 
