@@ -10,9 +10,7 @@ thodd
   template <
     typename type_t, 
     size_t size_c>
-  using array = std:array<type_t, size_c> ;
-
-
+  using array = std::array<type_t, size_c> ;
 
   constexpr auto
   make_array (auto && first, auto && ... item)
@@ -26,131 +24,7 @@ thodd
         std::forward<decltype(item)>(item)... }
     } ;
   }
-
-
-  constexpr auto 
-  next (typename array<auto>::iterator & it)
-  -> decltype(auto)
-  { return ++it ; }
-
-  constexpr auto 
-  next (typename array<auto>::const_iterator & it)
-  -> decltype(auto)
-  { return ++it ; }
   
-  constexpr auto 
-  next (typename array<auto>::iterator && it)
-  -> decltype(auto)
-  { return ++it ; }
-
-  constexpr auto 
-  next (typename array<auto>::const_iterator && it)
-  -> decltype(auto)
-  { return ++it ; }
-  
-
-  constexpr auto
-  get (typename array<auto>::iterator & it)
-  -> decltype(auto)
-  { return *it.ptr ; }
-
-  constexpr auto 
-  get (typename array<auto>::const_iterator & it)
-  -> decltype(auto)
-  { return *it.ptr ; }
-
-  constexpr auto
-  get (typename array<auto>::iterator && it)
-  -> decltype(auto)
-  { return *it.ptr ; }
-
-  constexpr auto 
-  get (typename array<auto>::const_iterator && it)
-  -> decltype(auto)
-  { return *it.ptr ; }
-
-
-  constexpr bool
-  not_equals (
-    typename array<auto>::iterator const & lit, 
-    typename array<auto>::iterator const & rit)
-  { return lit.ptr != rit.ptr ; }
-
-  
-  constexpr bool
-  not_equals (
-    typename array<auto>::const_iterator const & lit, 
-    typename array<auto>::const_iterator const & rit)
-  { return lit.ptr != rit.ptr ; }
-
-
-  template <
-    typename type_t,
-    size_t size_c>
-  constexpr auto
-  begin (array<type_t, size_c> & arr)
-  -> decltype(auto)
-  {
-    return 
-    arr.begin() ;
-  }
-
-  template <
-    typename type_t,
-    size_t size_c>
-  constexpr auto 
-  begin (array<type_t, size_c> const & arr)
-  -> decltype(auto)
-  {
-    return 
-    arr.begin() ;
-  }
-  
-  template <
-    typename type_t,
-    size_t size_c>
-  constexpr auto 
-  begin (array<type_t, size_c> && arr)
-  -> decltype(auto)
-  {
-    return 
-    arr.begin() ;
-  }
-
-  
-
-  template <
-    typename type_t,
-    size_t size_c>
-  constexpr auto 
-  end (array<type_t, size_c> & arr)
-  -> decltype(auto)
-  {
-    return 
-    arr.end() ;
-  }
-
-  template <
-    typename type_t,
-    size_t size_c>
-  constexpr auto
-  end (array<type_t, size_c> const & arr)
-  -> decltype(auto)
-  {
-    return 
-    arr.end() ;
-  }
-  
-  template <
-    typename type_t,
-    size_t size_c>
-  constexpr auto
-  end (thodd::array<type_t, size_c> && arr)
-  {
-    return 
-    arr.end() ;
-  }
-
 
   template <
     typename type_t,

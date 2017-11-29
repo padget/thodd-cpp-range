@@ -1,6 +1,40 @@
 #ifndef __THODD_RANGE_HPP__
 #  define __THODD_RANGE_HPP__
 
+namespace 
+thodd
+{
+  constexpr auto 
+  next (auto && it)
+  -> decltype(auto)
+  { return ++std::forward<decltype(it)>(it) ; }
+
+
+  constexpr auto 
+  get (auto && it)
+  -> decltype(auto)
+  { return *std::forward<decltype(it)>(it) ; }
+
+
+  constexpr bool
+  not_equals (
+    auto const & lit, 
+    auto const & rit)
+  { return lit != rit ; }
+
+
+  constexpr auto 
+  begin(auto && container)
+  -> decltype(auto)
+  { return std::forward<decltype(container)>(container).begin() ; }
+
+
+  constexpr auto 
+  end(auto && container)
+  -> decltype(auto)
+  { return std::forward<decltype(container)>(container).end() ; }
+}
+
 #  include <thodd/range/for_each.hpp>
 
 #  include <thodd/range/array.hpp>
