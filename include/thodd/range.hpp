@@ -1,15 +1,11 @@
 #ifndef __THODD_RANGE_HPP__
 #  define __THODD_RANGE_HPP__
 
+
+
 namespace 
 thodd
 {
-  constexpr auto 
-  next (auto && it)
-  -> decltype(auto)
-  { return ++std::forward<decltype(it)>(it) ; }
-
-
   constexpr auto 
   get (auto && it)
   -> decltype(auto)

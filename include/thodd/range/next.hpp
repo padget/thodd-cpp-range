@@ -2,15 +2,15 @@
 #  define __THODD_RANGE_NEXT_HPP__
 
 namespace 
-thodd{
+thodd {
     constexpr auto next_while = 
     [] (auto && predicate) 
         {
             return 
             [predicate] (auto && it, auto const & end_it) 
             {
-                while (not_equals (it, end_it) && predicate (it))
-                    next (it) ;
+                while (thodd::not_equals (it, end_it) && predicate (it))
+                    std::next (it) ;
             } ;
         } ;
 
@@ -20,8 +20,8 @@ thodd{
         return 
         [predicate] (auto && it, auto const & end_it) 
         {
-            if (not_equals (it, end_it) && predicate (it))
-                next (it) ;
+            if (thodd::not_equals (it, end_it) && predicate (it))
+                std::next (it) ;
         } ;
     } ;
 }

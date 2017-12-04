@@ -15,10 +15,10 @@ thodd
         auto cursor = begin (std::forward<decltype(container)>(container)) ;
         auto const end_it = end (std::forward<decltype(container)>(container)) ;
 
-        while (not_equals(cursor, end_it))
+        while (thodd::not_equals(cursor, end_it))
         {
             std::forward<decltype(todo)>(todo) (get(cursor)) ;
-            next(cursor) ;
+            std::next(cursor) ;
         }
 
         return 

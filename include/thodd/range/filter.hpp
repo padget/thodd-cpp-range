@@ -38,57 +38,14 @@ thodd
               std::forward<decltype(predicate)>(predicate) } ;
 
         if (not_equals(lfi.it, lfi.end_it))
-            if (!predicate(value_of(lfi.last_value = make_optional(get(lfi.it))))) 
+            if (!predicate(value_of(lfi.last_value = thodd::make_optional(get(lfi.it))))) 
                 next (lfi) ; 
 
         return 
         lfi;
     }
 
-    constexpr auto
-    next (lazy_filter_iterator<auto, auto> & it)
-    -> decltype(auto)
-    { 
-        while (not_equals(it.it, it.end_it))
-        {
-            next(it.it) ;
-
-            if (not_equals(it.it, it.end_it) && it.predicate(value_of(it.last_value = make_optional(get(it.it))))) 
-                break ; 
-        }
-
-        return it ;
-    }
-
-    constexpr auto
-    next (lazy_filter_iterator<auto, auto> const & it)
-    -> decltype(auto)
-    { 
-        while (not_equals(it.it, it.end_it))
-        {
-            next(it.it) ;
-
-            if (not_equals(it.it, it.end_it) && it.predicate(value_of(it.last_value = make_optional(get(it.it))))) 
-                break ; 
-        }
-
-        return it ;
-    }
-
-    constexpr auto
-    next (lazy_filter_iterator<auto, auto> && it)
-    -> decltype(auto)
-    { 
-        while (not_equals(it.it, it.end_it))
-        {
-            next(it.it) ;
-
-            if (not_equals(it.it, it.end_it) && it.predicate(value_of(it.last_value = make_optional(get(it.it))))) 
-                break ; 
-        }
-
-        return it ;
-    }
+   
 
 
 
@@ -116,10 +73,10 @@ thodd
 
 
     constexpr bool
-    not_equals (
+    operator != (
         lazy_filter_iterator<auto, auto> const & lit, 
         lazy_filter_iterator<auto, auto> const & rit)
-    { return not_equals(lit.it, rit.it) ; }
+    { return thodd::not_equals(lit.it, rit.it) ; }
 
     inline constexpr auto
     filter =  
@@ -145,6 +102,55 @@ thodd
             std::forward<decltype(container)>(container), 
             and_(std::forward<decltype(predicates)>(predicates)...)) ;
     } ;
+}
+
+namespace 
+std
+{
+    constexpr auto
+    next (thodd::lazy_filter_iterator<auto, auto> & it)
+    -> decltype(auto)
+    { 
+        while (thodd::not_equals(it.it, it.end_it))
+        {
+            thodd::next(it.it) ;
+
+            if (thodd::not_equals(it.it, it.end_it) && it.predicate(thodd::value_of(it.last_value = thodd::make_optional(thodd::get(it.it))))) 
+                break ; 
+        }
+
+        return it ;
+    }
+
+    constexpr auto
+    next (thodd::lazy_filter_iterator<auto, auto> const & it)
+    -> decltype(auto)
+    { 
+        while (thodd::not_equals(it.it, it.end_it))
+        {
+            thodd::next(it.it) ;
+
+            if (thodd::not_equals(it.it, it.end_it) && it.predicate(thodd::value_of(it.last_value = thodd::make_optional(thodd::get(it.it))))) 
+                break ; 
+        }
+
+        return it ;
+    }
+
+    constexpr auto
+    next (thodd::lazy_filter_iterator<auto, auto> && it)
+    -> decltype(auto)
+    { 
+        while (thodd::not_equals(it.it, it.end_it))
+        {
+           thodd::next(it.it) ;
+
+            if (thodd::not_equals(it.it, it.end_it) && it.predicate(thodd::value_of(it.last_value = thodd::make_optional(thodd::get(it.it))))) 
+                break ; 
+        }
+
+        return it ;
+    }
 }
 
 #endif
