@@ -46,7 +46,7 @@ struct person
 
 int main()
 {
-    auto annuaire = thodd::make_list( 
+    /*auto annuaire = thodd::make_list( 
         person { "george", "washinton", { 2, "rue des champignon" } } , 
         person { "denzel", "washinton", { 5, "rue des purée" } } ) ;
         
@@ -239,4 +239,15 @@ int main()
     thodd::for_each(
         str, [] (auto const & c) { std::cout << c << ' ' ; });
     std::cout << std::endl ;
+    */
+
+    int i = 1 ;
+
+	thodd::if_exists (
+		thodd::maybe_of(&i), 
+		[] (auto && num) { std::cout << num << std::endl ;}); 
+        
+	thodd::if_exists (
+		std::make_unique<int>(i), 
+		[] (auto && num) { std::cout << num << std::endl ;}); 
 }

@@ -3,37 +3,11 @@
 
 
 
-namespace 
-thodd
-{
-  constexpr auto 
-  get (auto && it)
-  -> decltype(auto)
-  { return *std::forward<decltype(it)>(it) ; }
-
-
-  constexpr bool
-  not_equals (
-    auto const & lit, 
-    auto const & rit)
-  { return lit != rit ; }
-
-
-  constexpr auto 
-  begin(auto && container)
-  -> decltype(auto)
-  { return std::forward<decltype(container)>(container).begin() ; }
-
-
-  constexpr auto 
-  end(auto && container)
-  -> decltype(auto)
-  { return std::forward<decltype(container)>(container).end() ; }
-}
-
 #  include <thodd/range/for_each.hpp>
 
-#  include <thodd/range/array.hpp>
+#  include <thodd/range/list2.hpp>
+
+/*#  include <thodd/range/array.hpp>
 #  include <thodd/range/list.hpp>
 #  include <thodd/range/map.hpp>
 #  include <thodd/range/set.hpp>
@@ -56,5 +30,5 @@ thodd
 #  include <thodd/range/next.hpp>
 #  include <thodd/range/reduce.hpp>
 #  include <thodd/range/step.hpp>
-
+*/
 #endif
