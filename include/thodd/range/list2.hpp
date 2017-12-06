@@ -1,6 +1,40 @@
 #ifndef __thodd_range_list2_hpp__
 #  define __thodd_range_list2_hpp__
 
+namespace 
+thodd
+{
+  template <typename type_t>
+  struct maybe 
+  {
+    type_t* data { nullptr } ;
+  } ;
+
+  template <typename type_t>
+  constexpr auto 
+  maybe_of (type_t * data) 
+  { return maybe<type_t> { data } ; }
+
+
+  template <typename type_t>
+  constexpr auto 
+  maybe_of () 
+  { return maybe<type_t> {} ; }
+
+
+  constexpr auto 
+  maybe_if (
+    auto && something, 
+    auto && predicate, 
+    auto && transform)
+  -> decltype(auto)
+  {
+    if (std::forward<decltype(predicate)>(predicate)(std::forward<decltype(something)>(something)))
+      return maybe_of(std::forward<decltype(transform)>(transform)(std::forward<decltype(something)>(something))) ;
+    else return maybe_of() ;
+  }
+}
+
 namespace
 thodd
 {
@@ -59,22 +93,32 @@ thodd
   template <
     typename type_t>
   constexpr auto
-  next (list_iterator<type_t> & li)
+  next (list_iterator<type_t> li)
+  -> decltype(auto)
+  {
+    li.data = li.data != nullptr ? li.data.next : li.data ;
+    return li ;
+  }
+  
+  template <
+    typename type_t>
+  constexpr auto
+  next (const_list_iterator<type_t> li)
   -> decltype(auto)
   {
     li.data = li.data != nullptr ? li.data.next : li.data ;
     return li ;
   }
 
-  
-  template <
-    typename type_t>
+  template <typename type_t>
   constexpr auto
-  next (const_list_iterator<type_t> & li)
-  -> decltype(auto)
-  {
-    li.data = li.data != nullptr ? li.data.next : li.data ;
-    return li ;
+  value_of (list_iterator<type_t> & li)
+  { 
+    return 
+    maybe_if (
+      li.data,  
+      [] (auto * data) { return data != null ; }, 
+      [] (auto * data) { return (data.item) ; }) ; 
   }
 }
 
