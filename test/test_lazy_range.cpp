@@ -245,9 +245,13 @@ int main()
 
 	thodd::if_exists (
 		thodd::maybe_of(&i), 
-		[] (auto && num) { std::cout << num << std::endl ;}); 
+		[] (auto && num) { std::cout << num << std::endl ;}) ; 
         
 	thodd::if_exists (
 		std::make_unique<int>(i), 
-		[] (auto && num) { std::cout << num << std::endl ;}); 
+		[] (auto && num) { std::cout << num << std::endl ;}) ;
+
+	thodd::for_each(
+		thodd::make_list(1, 3, 5, 6, 4, 5, 58, 9), 
+		[] (auto && item) { std::cout << item << std::endl ; }) ; 
 }

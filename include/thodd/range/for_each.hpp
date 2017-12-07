@@ -17,9 +17,7 @@ thodd
 
 		while (not_equals(cursor, end_it))
 		{
-			if_exists(
-				value_of(cursor), 
-				std::forward<decltype(todo)>(todo)) ;
+			std::forward<decltype(todo)>(todo)(value_of(cursor)) ;
 			cursor = next(cursor) ;
 		}
 
@@ -46,7 +44,7 @@ thodd
 			auto && todo, 
 			auto && initially)
 	{
-			std::forward<decltype(initially)>(initially)() ;
+			std::forward<decltype(initially)>(initially)(std::forward<decltype(container)>(container)) ;
 
 			for_each(
 					std::forward<decltype(container)>(container),
@@ -63,7 +61,7 @@ thodd
 					std::forward<decltype(container)>(container),
 					std::forward<decltype(todo)>(todo)) ;
 
-			std::forward<decltype(finally)>(finally)() ;
+			std::forward<decltype(finally)>(finally)(std::forward<decltype(container)>(container)) ;
 	}
 
 	constexpr auto 
@@ -73,13 +71,13 @@ thodd
 			auto && initially,
 			auto && finally)
 	{
-			std::forward<decltype(initially)>(initially)() ;
+			std::forward<decltype(initially)>(initially)(std::forward<decltype(container)>(container)) ;
 
 			for_each(
 					std::forward<decltype(container)>(container),
 					std::forward<decltype(todo)>(todo)) ;
 
-			std::forward<decltype(finally)>(finally)() ;
+			std::forward<decltype(finally)>(finally)(std::forward<decltype(container)>(container)) ;
 	}
 }
 
