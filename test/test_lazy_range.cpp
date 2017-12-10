@@ -253,5 +253,11 @@ int main()
 
 	thodd::for_each(
 		thodd::make_list(1, 3, 5, 6, 4, 5, 58, 9), 
-		[] (auto && item) { std::cout << item << std::endl ; }) ; 
+		[] (auto && item) { std::cout << item << std::endl ; }) ;
+
+    auto t = thodd::make_array(1, 3, 5, 6).data; 
+    thodd::for_each(
+		t, 
+		[] (auto && item) { std::cout << item << std::endl ; }) ;
+
 }

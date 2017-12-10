@@ -57,7 +57,7 @@ thodd
     typename type_t>
   struct list_iterator
   {
-    list<type_t> * data ;
+    list<type_t> * data { nullptr } ;
   } ;
 
 
@@ -101,7 +101,7 @@ thodd
     typename type_t>
   struct list_const_iterator
   {
-    list<type_t> const * data ;
+    list<type_t> const * data { nullptr } ;
   } ;
 
   template <
