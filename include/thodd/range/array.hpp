@@ -43,7 +43,7 @@ thodd
   constexpr auto 
   begin (array<type_t, size_c> & a)
   -> decltype(auto)
-  { return array_iterator<type_t> { &a.data } ; }
+  { return array_iterator<type_t> { a.data } ; }
 
   template <
     typename type_t, 
@@ -67,56 +67,59 @@ thodd
     typename type_t>
   constexpr auto
   value_of (array_iterator<type_t> ai)
+  -> decltype(auto)
   { return *ai.data ; }
 
   not_equals (
     array_iterator<auto> const & l, 
     array_iterator<auto> const & r)
   { return l.data != r.data ; }
-  /*
+  
   
   template <
     typename type_t>
-  struct list_const_iterator
+  struct array_const_iterator
   {
-    list<type_t> const * data ;
+    type_t const * data { nullptr };
   } ;
 
   template <
-    typename type_t>
+    typename type_t, 
+    size_t size_c>
   constexpr auto 
-  begin (list<type_t> const & l)
+  begin (array<type_t, size_c> const & a)
   -> decltype(auto)
-  { return list_const_iterator<type_t> { &l } ; }
+  { return array_const_iterator<type_t> { a.data } ; }
 
   template <
-    typename type_t>
+    typename type_t, 
+    size_t size_c>
   constexpr auto 
-  end (list<type_t> const & l)
+  end (array<type_t, size_c> const & a)
   -> decltype(auto)
-  { return list_const_iterator<type_t> { nullptr } ; }
+  { return array_const_iterator<type_t> { a.data + size_c } ; }
 
   template <
     typename type_t>
   constexpr auto
-  next (list_const_iterator<type_t> li)
+  next (array_const_iterator<type_t> ai)
   -> decltype(auto)
   {
-    li.data = (li.data != nullptr && has_value(li.data->next->item)) ? li.data->next.get() : nullptr ; 
-    return li ;
+    ++ai.data ;
+    return ai ;
   }
-
+    
   template <
     typename type_t>
   constexpr auto
-  value_of (list_const_iterator<type_t> li)
+  value_of (array_const_iterator<type_t> ai)
   -> decltype(auto)
-  { return *li.data->item ; }
+  { return *ai.data ; }
 
   not_equals (
-    list_const_iterator<auto> const & l, 
-    list_const_iterator<auto> const & r)
-  { return l.data != r.data ; } */
+    array_const_iterator<auto> const & l, 
+    array_const_iterator<auto> const & r)
+  { return l.data != r.data ; }
 }
 
 #endif

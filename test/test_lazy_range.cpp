@@ -46,7 +46,8 @@ struct person
 
 int main()
 {
-    /*auto annuaire = thodd::make_list( 
+    /*
+    auto annuaire = thodd::make_list( 
         person { "george", "washinton", { 2, "rue des champignon" } } , 
         person { "denzel", "washinton", { 5, "rue des purée" } } ) ;
         
@@ -255,9 +256,9 @@ int main()
 		thodd::make_list(1, 3, 5, 6, 4, 5, 58, 9), 
 		[] (auto && item) { std::cout << item << std::endl ; }) ;
 
-    auto t = thodd::make_array(1, 3, 5, 6).data; 
+    auto t = thodd::make_array(1, 3, 5, 6); 
     thodd::for_each(
-		t, 
+        thodd::make_array(1, 3, 5, 6), 
 		[] (auto && item) { std::cout << item << std::endl ; }) ;
 
 }
