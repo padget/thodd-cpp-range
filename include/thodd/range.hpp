@@ -7,6 +7,10 @@
 
 #  include <thodd/range/list.hpp>
 #  include <thodd/range/array.hpp>
+
+#  include <thodd/range/project.hpp>
+#  include <thodd/range/filter.hpp>
+
 /*#  include <thodd/range/array.hpp>
 #  include <thodd/range/list.hpp>
 #  include <thodd/range/map.hpp>
@@ -21,7 +25,7 @@
 #  include <thodd/range/collectors.hpp>
 #  include <thodd/range/count.hpp> 
 #  include <thodd/range/distance.hpp>
-#  include <thodd/range/filter.hpp>
+
 #  include <thodd/range/find.hpp>
 #  include <thodd/range/generate.hpp>
 #  include <thodd/range/project.hpp>

@@ -41,45 +41,20 @@ struct person
 } ;
 
 
-
+template<
+    typename todo_t>
+struct applied 
+{
+    todo_t todo ;
+} ;
 
 
 int main()
 {
     /*
-    auto annuaire = thodd::make_list( 
-        person { "george", "washinton", { 2, "rue des champignon" } } , 
-        person { "denzel", "washinton", { 5, "rue des purée" } } ) ;
-        
-
-    thodd::for_each(
-        thodd::project(
-            annuaire, 
-            [] (auto && p) -> decltype(auto) { return p.addr.rue ; }), 
-        [] (auto && rue) { std::cout << rue << std::endl ; }) ;
+   
     
-    std::cout << "filters" << std::endl ;
-    auto nums = thodd::make_list(0, 1, 2, 3, 4, 5, 6) ;
-    thodd::for_each(
-        thodd::filter (nums, [] (auto && num) { return num % 2 == 0 ; } ),
-        [] (auto && num) { std::cout << 'c' << num << std::endl ; }) ;
-
-    std::cout << "sizes" << std::endl ;
-
-    auto sizes = 
-        thodd::filter(
-            thodd::project(
-                thodd::project(
-                    thodd::project(
-                        annuaire, 
-                        [] (auto && person) { return person.addr ; }), 
-                    [] (auto && addr) { return addr.rue ; }), 
-                [] (auto && rue) { return rue.size() ; }), 
-            [] (auto && size) { return size > 10 ; }) ;
     
-    thodd::for_each (
-        sizes, 
-        [](auto && size) { std::cout << "size " << size << std::endl ; }) ;
         
 
     auto sum = thodd::reduce (sizes, 0, [] (auto acc, auto item) { return acc + item ; });
@@ -259,5 +234,38 @@ int main()
     thodd::for_each(
         thodd::push_back(thodd::make_array(1, 3, 5, 6), 7), 
 		[] (auto && item) { std::cout << item << std::endl ; }) ;
+
+    auto annuaire = thodd::make_list( 
+        person { "george", "washinton", { 2, "rue des champignon" } } , 
+        person { "denzel", "washinton", { 5, "rue des purée" } } ) ;
+        
+    thodd::for_each(
+        thodd::project(
+            annuaire, 
+            [] (auto && p) -> decltype(auto) { return p.addr.rue ; }), 
+        [] (auto && rue) { std::cout << rue << std::endl ; }) ;
+
+    std::cout << "filters" << std::endl ;
+    auto nums = thodd::make_list(0, 1, 2, 3, 4, 5, 6) ;
+    thodd::for_each(
+        thodd::filter (nums, [] (auto && num) { return num % 2 == 0 ; } ),
+        [] (auto && num) { std::cout << 'c' << num << std::endl ; }) ;
+
+    std::cout << "sizes" << std::endl ;
+
+    auto sizes = 
+        thodd::filter(
+            thodd::project(
+                thodd::project(
+                    thodd::project(
+                        annuaire, 
+                        [] (auto && person) { return person.addr ; }), 
+                    [] (auto && addr) { return addr.rue ; }), 
+                [] (auto && rue) { return rue.size() ; }), 
+            [] (auto && size) { return size > 10 ; }) ;
+    
+    thodd::for_each (
+        sizes, 
+        [](auto && size) { std::cout << "size " << size << std::endl ; }) ;
 
 }

@@ -73,22 +73,20 @@ thodd
   constexpr auto 
   end (list<type_t> & l)
   -> decltype(auto)
-  { return list_iterator<type_t> { make_list<type_t>() } ; }
+  { return list_iterator<type_t> { } ; }
 
   template <
     typename type_t>
   constexpr auto
-  next (list_iterator<type_t> li)
-  -> decltype(auto)
+  next (list_iterator<type_t> & li)
   {
     li.data = (li.data != nullptr && has_value(li.data->next->item)) ? li.data->next.get() : nullptr ;
-    return li ;
   }
     
   template <
     typename type_t>
   constexpr auto
-  value_of (list_iterator<type_t> li)
+  value_of (list_iterator<type_t> & li)
   { return *li.data->item ; }
 
   not_equals (
@@ -121,17 +119,15 @@ thodd
   template <
     typename type_t>
   constexpr auto
-  next (list_const_iterator<type_t> li)
-  -> decltype(auto)
+  next (list_const_iterator<type_t> & li)
   {
     li.data = (li.data != nullptr && has_value(li.data->next->item)) ? li.data->next.get() : nullptr ; 
-    return li ;
   }
 
   template <
     typename type_t>
   constexpr auto
-  value_of (list_const_iterator<type_t> li)
+  value_of (list_const_iterator<type_t> & li)
   -> decltype(auto)
   { return *li.data->item ; }
 

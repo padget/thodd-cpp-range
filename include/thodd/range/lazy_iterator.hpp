@@ -27,52 +27,17 @@ thodd
             std::decay_t<decltype(it)>, 
             std::decay_t<decltype(apply)>>
         { std::forward<decltype(it)>(it),
-          std::forward<decltype(apply)>(apply)} ;
+          std::forward<decltype(apply)>(apply) } ;
     }
 
-    
     constexpr auto
     next (lazy_iterator<auto, auto> & it)
-    -> decltype(auto)
-    { 
-        next(it.it) ;
-        return it ;
-    }
+    { next(it.it) ; }
 
     constexpr auto 
-    next (lazy_iterator<auto, auto> const & it)
+    value_of (lazy_iterator<auto, auto> & it)
     -> decltype(auto)
-    { 
-        next(it.it) ;
-        return it ;
-    }
-
-    constexpr auto
-    next (lazy_iterator<auto, auto> && it)
-    -> decltype(auto)
-    { 
-        next(it.it) ;
-        return it ;
-    }
-
-
-
-    constexpr auto 
-    get (lazy_iterator<auto, auto> & it)
-    -> decltype(auto)
-    { return it.apply(get(it.it)) ; }
-
-    constexpr auto
-    get (lazy_iterator<auto, auto> const & it)
-    -> decltype(auto)
-    { return it.apply(get(it.it)) ; }
-
-    constexpr auto
-    get (lazy_iterator<auto, auto> && it)
-    -> decltype(auto)
-    { return it.apply(get(it.it)) ; }
-
-
+    { return it.apply(value_of(it.it)) ; }
 
     constexpr bool
     not_equals (

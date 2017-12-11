@@ -73,17 +73,13 @@ thodd
   template <
     typename type_t>
   constexpr auto
-  next (array_iterator<type_t> ai)
-  -> decltype(auto)
-  {
-    ++ai.data ;
-    return ai ;
-  }
+  next (array_iterator<type_t> & ai)
+  { ++ai.data ; }
     
   template <
     typename type_t>
   constexpr auto
-  value_of (array_iterator<type_t> ai)
+  value_of (array_iterator<type_t> & ai)
   -> decltype(auto)
   { return *ai.data ; }
 
@@ -119,17 +115,13 @@ thodd
   template <
     typename type_t>
   constexpr auto
-  next (array_const_iterator<type_t> ai)
-  -> decltype(auto)
-  {
-    ++ai.data ;
-    return ai ;
-  }
+  next (array_const_iterator<type_t> & ai)
+  { ++ai.data ; }
     
   template <
     typename type_t>
   constexpr auto
-  value_of (array_const_iterator<type_t> ai)
+  value_of (array_const_iterator<type_t> & ai)
   -> decltype(auto)
   { return *ai.data ; }
 
