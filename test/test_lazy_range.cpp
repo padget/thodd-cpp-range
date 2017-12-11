@@ -256,9 +256,8 @@ int main()
 		thodd::make_list(1, 3, 5, 6, 4, 5, 58, 9), 
 		[] (auto && item) { std::cout << item << std::endl ; }) ;
 
-    auto t = thodd::make_array(1, 3, 5, 6); 
     thodd::for_each(
-        thodd::make_array(1, 3, 5, 6), 
+        thodd::push_back(thodd::make_array(1, 3, 5, 6), 7), 
 		[] (auto && item) { std::cout << item << std::endl ; }) ;
 
 }

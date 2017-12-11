@@ -16,6 +16,23 @@ thodd
   } ;
 
 
+  template <
+    typename type_t, 
+    size_t size_c>
+  constexpr auto 
+  push_back (
+    array<type_t, size_c> const & a, 
+    auto && item)
+  {
+    array<type_t, size_c + 1> res {} ;
+    res.data[size_c] = std::forward<decltype(item)>(item) ;
+    
+    for (auto i = 0; i < size_c; ++i)
+      res.data[i] = a.data[i] ;
+
+    return res ;
+  }
+
   constexpr auto
   make_array (auto && first, auto && ... item)
   {
