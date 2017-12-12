@@ -10,6 +10,7 @@
 
 #  include <thodd/range/project.hpp>
 #  include <thodd/range/filter.hpp>
+#  include <thodd/range/count.hpp> 
 
 /*#  include <thodd/range/array.hpp>
 #  include <thodd/range/list.hpp>
@@ -23,7 +24,6 @@
 #  include <thodd/range/lazy_indirect_iterator.hpp>
 #  include <thodd/range/collect.hpp>
 #  include <thodd/range/collectors.hpp>
-#  include <thodd/range/count.hpp> 
 #  include <thodd/range/distance.hpp>
 
 #  include <thodd/range/find.hpp>

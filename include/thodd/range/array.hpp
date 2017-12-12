@@ -15,6 +15,39 @@ thodd
     type_t data[size_c] ;
   } ;
 
+  template <
+    size_t sizel_c, 
+    size_t sizer_c>
+  constexpr auto
+  copy (
+    array<auto, sizel_c> const & l, 
+    array<auto, sizer_c> & r)
+    -> decltype(r)
+  {
+    static_assert (sizel_c < sizer_c) ;
+
+    for (auto i = 0u ; i < sizel_c ; ++i)
+      r.data[i] = l.data[i] ;
+
+    return r ;
+  }
+
+  template <
+    size_t sizel_c, 
+    size_t sizer_c>
+  constexpr auto
+  copy (
+    array<auto, sizel_c> && l, 
+    array<auto, sizer_c> & r)
+    -> decltype(r)
+  {
+    static_assert (sizel_c < sizer_c) ;
+
+    for (auto i = 0u ; i < sizel_c ; ++i)
+      r.data[i] = std::move(l.data[i]) ;
+
+    return r ;
+  }
 
   template <
     typename type_t, 
@@ -25,16 +58,29 @@ thodd
     auto && item)
   {
     array<type_t, size_c + 1> res {} ;
-    res.data[size_c] = std::forward<decltype(item)>(item) ;
-    
-    for (auto i = 0; i < size_c; ++i)
-      res.data[i] = a.data[i] ;
+    copy(a, res).data[size_c] = std::forward<decltype(item)>(item) ;
 
     return res ;
   }
 
+  template <
+    typename type_t, 
+    size_t size_c>
+  constexpr auto 
+  push_back (
+    array<type_t, size_c> && a, 
+    auto && item)
+  {
+    array<type_t, size_c + 1> res {} ;
+    copy(a, res).data[size_c] = std::forward<decltype(item)>(item) ;
+    
+    return res ;
+  }
+
   constexpr auto
-  make_array (auto && first, auto && ... item)
+  make_array (
+    auto && first, 
+    auto && ... item)
   {
     return 
     thodd::array<
@@ -83,6 +129,7 @@ thodd
   -> decltype(auto)
   { return *ai.data ; }
 
+  constexpr bool
   not_equals (
     array_iterator<auto> const & l, 
     array_iterator<auto> const & r)
@@ -125,6 +172,7 @@ thodd
   -> decltype(auto)
   { return *ai.data ; }
 
+  constexpr bool
   not_equals (
     array_const_iterator<auto> const & l, 
     array_const_iterator<auto> const & r)

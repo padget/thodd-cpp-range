@@ -6,14 +6,14 @@
 namespace
 thodd
 {
-    inline constexpr auto 
-    collect = 
-    [] (auto && container, auto && collector)
-    {
-        return 
-        std::forward<decltype(collector)>(collector)(
-            std::forward<decltype(container)>(container)) ;
-    } ; 
+	inline constexpr auto 
+	collect = 
+	[] (auto && container, auto && collector)
+	{
+		return 
+		std::forward<decltype(collector)>(collector) (
+			std::forward<decltype(container)>(container)) ;
+	} ; 
 }
 
 #endif

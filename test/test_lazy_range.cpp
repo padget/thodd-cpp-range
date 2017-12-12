@@ -52,45 +52,7 @@ struct applied
 int main()
 {
     /*
-   
-    
-    
-        
 
-    auto sum = thodd::reduce (sizes, 0, [] (auto acc, auto item) { return acc + item ; });
-    std::cout << "sum " << sum << std::endl ;
-
-    std::cout << "sizes2" << std::endl ;
-
-    auto sizes2 = 
-        thodd::filter(
-            thodd::projects (
-                annuaire, 
-                [] (auto && person) { return person.addr ; }, 
-                [] (auto && addr) { return addr.rue ; }, 
-                [] (auto && rue) { return rue.size() ; }),
-            [] (auto && size) { return size > 10 ; });
-    
-    thodd::for_each (sizes2, [] (auto && size) { std::cout << "size " << size << std::endl ; }) ;
-
-    auto sum2 = thodd::reduce (sizes2, 0, [] (auto acc, auto item) { return acc + item ; });
-    std::cout << sum2 << std::endl ;
-
-    std::cout << "count " << thodd::count (sizes2, 18) << std::endl ;
-    std::cout << "count " << thodd::count_if (sizes2, thodd::equal(thodd::val(1), thodd::$0)) << std::endl ;
-
-    auto nums2 = thodd::make_array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) ;
-    
-    constexpr auto onlypair = [] (auto && item) { return item % 2 == 0 ; } ;
-    constexpr auto threeless = [] (auto && item) { return item <= 3 ; } ;
-
-    std::cout << "filters" << std::endl ;
-
-    thodd::for_each (
-        thodd::filters(nums2, threeless, onlypair), 
-        [] (auto && num) {std::cout << num << std::endl ; }) ;
-
-    std::cout << "count_if pair " << thodd::count_if(nums2, onlypair) << std::endl ;
 
     std::cout << "collect " << std::endl ;
     thodd::for_each (
@@ -232,7 +194,7 @@ int main()
 		[] (auto && item) { std::cout << item << std::endl ; }) ;
 
     thodd::for_each(
-        thodd::push_back(thodd::make_array(1, 3, 5, 6), 7), 
+        thodd::push_back(thodd::make_array(1, 2, 3, 4), 5), 
 		[] (auto && item) { std::cout << item << std::endl ; }) ;
 
     auto annuaire = thodd::make_list( 
@@ -255,17 +217,50 @@ int main()
 
     auto sizes = 
         thodd::filter(
-            thodd::project(
-                thodd::project(
-                    thodd::project(
-                        annuaire, 
-                        [] (auto && person) { return person.addr ; }), 
-                    [] (auto && addr) { return addr.rue ; }), 
-                [] (auto && rue) { return rue.size() ; }), 
-            [] (auto && size) { return size > 10 ; }) ;
+            thodd::projects(
+                annuaire, 
+                [] (auto const & person) { return person.addr ; }, 
+                [] (auto const & addr) { return addr.rue ; }, 
+                [] (auto const & rue) { return rue.size() ; }), 
+            [] (auto const & size) { return size > 10 ; }) ;
     
     thodd::for_each (
         sizes, 
         [](auto && size) { std::cout << "size " << size << std::endl ; }) ;
+
+    auto sum = thodd::reduce (sizes, 0, [] (auto acc, auto item) { return acc + item ; });
+    std::cout << "sum " << sum << std::endl ;
+
+    std::cout << "sizes2" << std::endl ;
+
+    auto sizes2 = 
+        thodd::filter(
+            thodd::projects (
+                annuaire, 
+                [] (auto && person) { return person.addr ; }, 
+                [] (auto && addr) { return addr.rue ; }, 
+                [] (auto && rue) { return rue.size() ; }),
+            [] (auto && size) { return size > 10 ; });
+    
+    thodd::for_each (sizes2, [] (auto && size) { std::cout << "size " << size << std::endl ; }) ;
+
+    auto sum2 = thodd::reduce (sizes2, 0, [] (auto acc, auto item) { return acc + item ; });
+    std::cout << sum2 << std::endl ;
+
+    std::cout << "count " << thodd::count (sizes2, 18) << std::endl ;
+    std::cout << "count " << thodd::count_if (sizes2, thodd::equal(thodd::val(1), thodd::$0)) << std::endl ;
+
+    auto nums2 = thodd::make_array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) ;
+    
+    constexpr auto onlypair = [] (auto && item) { return item % 2 == 0 ; } ;
+    constexpr auto threeless = [] (auto && item) { return item <= 3 ; } ;
+
+    std::cout << "filters" << std::endl ;
+
+    thodd::for_each (
+        thodd::filters(nums2, threeless, onlypair), 
+        [] (auto && num) {std::cout << num << std::endl ; }) ;
+
+    std::cout << "count_if pair " << thodd::count_if(nums2, onlypair) << std::endl ;
 
 }
