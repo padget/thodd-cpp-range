@@ -129,6 +129,13 @@ thodd
   -> decltype(auto)
   { return *ai.data ; }
 
+  template <
+    typename type_t>
+  constexpr auto
+  value_of (array_iterator<type_t> const & ai)
+  -> decltype(auto)
+  { return *ai.data ; }
+
   constexpr bool
   not_equals (
     array_iterator<auto> const & l, 
@@ -169,6 +176,13 @@ thodd
     typename type_t>
   constexpr auto
   value_of (array_const_iterator<type_t> & ai)
+  -> decltype(auto)
+  { return *ai.data ; }
+
+  template <
+    typename type_t>
+  constexpr auto
+  value_of (array_const_iterator<type_t> const & ai)
   -> decltype(auto)
   { return *ai.data ; }
 

@@ -34,35 +34,27 @@ namespace thodd
 
 
     constexpr auto
-    begin (thodd::range<auto, auto> & lis)
-    { return lis.begin_it ; }
+    begin (thodd::range<auto, auto> & rg)
+    { return rg.begin_it ; }
 
     constexpr auto const
-    begin (thodd::range<auto, auto> const & lis)
-    { return lis.begin_it ; }
-
-    constexpr auto
-    begin (thodd::range<auto, auto> && lis)
-    { return lis.begin_it ; }
+    begin (thodd::range<auto, auto> const & rg)
+    { return rg.begin_it ; }
 
     
 
     constexpr auto
-    end (thodd::range<auto, auto> & lis)
-    { return lis.end_it ; }
+    end (thodd::range<auto, auto> & rg)
+    { return rg.end_it ; }
 
     constexpr auto
-    end (thodd::range<auto, auto> const & lis)
-    { return lis.end_it ; }
-
-    constexpr auto
-    end (thodd::range<auto, auto> && lis)
-    { return lis.end_it ; }
+    end (thodd::range<auto, auto> const & rg)
+    { return rg.end_it ; }
 
 
 
     constexpr auto
-    size(thodd::range<auto, auto> const & rg)
+    size (thodd::range<auto, auto> const & rg)
     { return thodd::distance(rg) ; }
 }
 

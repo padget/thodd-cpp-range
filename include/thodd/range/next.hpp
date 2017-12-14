@@ -9,8 +9,8 @@ thodd {
             return 
             [predicate] (auto && it, auto const & end_it) 
             {
-                while (thodd::not_equals (it, end_it) && predicate (it))
-                    std::next (it) ;
+                while (not_equals (it, end_it) && predicate (it))
+                    next (it) ;
             } ;
         } ;
 
@@ -20,8 +20,8 @@ thodd {
         return 
         [predicate] (auto && it, auto const & end_it) 
         {
-            if (thodd::not_equals (it, end_it) && predicate (it))
-                std::next (it) ;
+            if (not_equals (it, end_it) && predicate (it))
+                next (it) ;
         } ;
     } ;
 }
