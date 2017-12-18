@@ -3,25 +3,31 @@
 
 namespace 
 thodd {
-    constexpr auto next_while = 
+    inline constexpr auto next_while = 
     [] (auto && predicate) 
+    {
+        return 
+        [predicate] (auto && it, auto const & end_it)
+        -> decltype(it) 
         {
-            return 
-            [predicate] (auto && it, auto const & end_it) 
-            {
-                while (not_equals (it, end_it) && predicate (it))
-                    next (it) ;
-            } ;
-        } ;
+            while (not_equals (std::forward<decltype(it)>(it), end_it) && predicate (std::forward<decltype(it)>(it)))
+                next (std::forward<decltype(it)>(it)) ;
 
-    constexpr auto next_if = 
+            return (it) ; 
+        } ;
+    } ;
+
+    inline constexpr auto next_if = 
     [] (auto && predicate) 
     {
         return 
         [predicate] (auto && it, auto const & end_it) 
+        -> decltype(it)
         {
-            if (not_equals (it, end_it) && predicate (it))
-                next (it) ;
+            if (not_equals (std::forward<decltype(it)>(it), end_it) && predicate (std::forward<decltype(it)>(it)))
+                next (std::forward<decltype(it)>(it)) ;
+            
+            return (it) ;
         } ;
     } ;
 }

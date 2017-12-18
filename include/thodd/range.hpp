@@ -8,6 +8,7 @@
 #  include <thodd/range/list.hpp>
 #  include <thodd/range/array.hpp>
 #  include <thodd/range/range.hpp>
+#  include <thodd/range/string.hpp>
 
 #  include <thodd/range/distance.hpp>
 #  include <thodd/range/project.hpp>
