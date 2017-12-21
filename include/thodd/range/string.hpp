@@ -55,11 +55,18 @@ thodd
     si.idx = si.idx < si.data->str.size() ? si.idx + 1u : -1u ;
     return (si) ;
   }
-    
+
   template <
     typename type_t>
   constexpr auto
   value_of (string_iterator<type_t> & li)
+  -> decltype((li.data->str[li.idx]))
+  { return (li.data->str[li.idx]) ; }
+
+  template <
+    typename type_t>
+  constexpr auto
+  value_of (string_iterator<type_t> const & li)
   -> decltype((li.data->str[li.idx]))
   { return (li.data->str[li.idx]) ; }
 
@@ -108,6 +115,13 @@ thodd
     typename type_t>
   constexpr auto
   value_of (string_const_iterator<type_t> & li)
+  -> decltype((li.data->str[li.idx]))
+  { return (li.data->str[li.idx]) ; }
+
+  template <
+    typename type_t>
+  constexpr auto
+  value_of (string_const_iterator<type_t> const & li)
   -> decltype((li.data->str[li.idx]))
   { return (li.data->str[li.idx]) ; }
 

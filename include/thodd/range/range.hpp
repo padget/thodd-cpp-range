@@ -50,12 +50,6 @@ namespace thodd
     constexpr auto
     end (thodd::range<auto, auto> const & rg)
     { return rg.end_it ; }
-
-
-
-    constexpr auto
-    size (thodd::range<auto, auto> const & rg)
-    { return thodd::distance(rg) ; }
 }
 
 

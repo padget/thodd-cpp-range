@@ -16,9 +16,9 @@
 #  include <thodd/range/count.hpp> 
 #  include <thodd/range/collect.hpp>
 #  include <thodd/range/collectors.hpp>
-
+#  include <thodd/range/size.hpp>
 #  include <thodd/range/next.hpp>
-
+#  include <thodd/range/step.hpp>
 
 /*
 
